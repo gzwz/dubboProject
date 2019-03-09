@@ -1,0 +1,7 @@
+FROM dockerfile/java:oracle-java8
+
+VOLUME /tmp
+ADD qumiandan-user.jar /opt/qumiandan-user/
+EXPOSE 8080
+WORKDIR /opt/qumiandan-user/
+CMD ["java", "-Djava.security.egd=file:/dev/./urandom", "-Xms512m", "-Xmx1g", "-jar", "qumiandan-user.jar"]

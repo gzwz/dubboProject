@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.salemandata.mapper.SalemanDataMapper" >
+	<select id="todayProfit" resultType="java.math.BigDecimal">
+		select sum(amount) 
+		from qmd_trade_detail 
+		where type in (4,9,16)
+		and account_in_id = 
+		(
+		select id from qmd_pay_account where
+		 user_id = #{userId}
+		)
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.sellerIndexData.mapper.SellerBackGroundDataMapper" >
+	<resultMap id="GetAllDataVO" type="cn.qumiandan.sellerIndexData.vo.GetAllDataVO">
+		<result column="tradeVolume" property="tradeVolume"/>
+		<result column="receivableMoney" property="receivableMoney"/>
+		<result column="actualMoney" property="actualMoney"/>
+		<result column="allCost" property="allCost"/>
+		<result column="discountMoney" property="discountMoney"/>
+		<result column="serviceMoney" property="serviceMoney"/>
+		<result column="refundMoney" property="refundMoney"/>
+		<result column="orderNum" property="orderNum"/>
+		<result column="personNum" property="personNum"/>
+	</resultMap>
+   <select id="getAllData"  resultMap="GetAllDataVO">
+	 SELECT
+	 (
+	 	SELECT sum(amount_total)+ sum(game_amount) from qmd_order  where  order_status in (3,4,5,6,7,8)
+	 	<if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+	 	
+	 ) as tradeVolume ,
+	 
+
+	(
+		SELECT sum(product_amount_total) 
+	 	from qmd_order o  where order_status in (5,6,8)
+		<if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+	 )
+	  as receivableMoney ,
+	  
+	(
+	SELECT sum(amount)  
+	from qmd_trade_detail  where type in (2,3,14)  and  status in (2,4)
+	 <if test="allDataParamsVO.accountIds != null and allDataParamsVO.accountIds.size()>0">
+		 and account_in_id in 
+		 <foreach collection="allDataParamsVO.accountIds" item="accountId" open="(" close=")" separator=",">
+   			 #{accountId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}
+	 ) 
+	 as actualMoney ,
+
+
+	(
+	SELECT sum(p.cost *od.number) 
+	from qmd_order o
+	 LEFT JOIN qmd_order_detail od on o.order_id = od.order_id 
+	 LEFT JOIN qmd_product p on od.product_id = p.id 
+	where o.order_status in (5,6,8)
+	<if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and o.shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and o.create_date &gt;  #{allDataParamsVO.startDate}
+	  and o.create_date &lt;= #{allDataParamsVO.endDate}	 
+	 )
+	  as allCost,
+
+	(
+	SELECT count(*)
+	 from qmd_order where   order_status = 4 
+	 <if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+	 )
+	 as waitingUsing,
+
+
+	(
+	SELECT sum(amount) from qmd_trade_detail 
+	where  type in (8,13,26) 
+	<if test="allDataParamsVO.accountIds != null and allDataParamsVO.accountIds.size()>0">
+		 and account_in_id in 
+		 <foreach collection="allDataParamsVO.accountIds" item="accountId" open="(" close=")" separator=",">
+   			 #{accountId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;=  #{allDataParamsVO.startDate}
+	  and create_date &lt; #{allDataParamsVO.endDate}	
+		)
+		 as serviceMoney,
+
+	(
+	
+	SELECT sum(amount_total) from qmd_order 
+	where order_status = 7
+	<if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+		)
+	 as refundMoney,
+
+
+	(
+	select COUNT(*) from qmd_order where 1=1
+	and (amount_total &gt; 0 or game_amount &gt; 0)
+	and order_status in (3,4,5,6,7,8)
+	 <if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+	 )	 
+	  as orderNum,
+
+	(select count(DISTINCT(user_id))
+	 from qmd_order  where 1=1 
+	and (amount_total &gt; 0 or game_amount &gt; 0)
+	and order_status in (3,4,5,6,7,8)
+	 <if test="allDataParamsVO.shopIds != null and allDataParamsVO.shopIds.size()>0 " >
+		 and shop_id in 
+		 <foreach collection="allDataParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{allDataParamsVO.startDate}
+	  and create_date &lt;= #{allDataParamsVO.endDate}	 
+	 )	
+	 as personNum
+	from DUAL
+   
+   </select>
+   
+   <select id="getAccountIdsByShopIds" resultType="java.lang.Long" >
+   	select id from qmd_pay_account where 1 = 1 
+   	<if test="shopIds != null and shopIds.size()>0">
+   	and shop_id in 
+   	<foreach collection="shopIds" item="shopId" open="(" close=")" separator=",">
+   		#{shopId}
+   	</foreach>
+   	</if> 
+   </select>
+</mapper>

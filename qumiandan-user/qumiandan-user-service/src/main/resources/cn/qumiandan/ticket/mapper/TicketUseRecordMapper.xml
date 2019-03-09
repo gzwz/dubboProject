@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.ticket.mapper.TicketUseRecordMapper" >
+  	<resultMap id="QueryRecordVO" type="cn.qumiandan.ticket.vo.QueryRecordVO" >
+ 		<id column="id" property="id"/>
+ 		<result column="ticket_id" property="ticketId"/>
+		<result column="from_user_id" property="fromUserId"/>
+		<result column="from_user_name" property="fromUserName"/>
+		<result column="from_name" property="fromName"/>
+		<result column="from_user_type" property="fromUserType"/>
+		<result column="current_user_id" property="currentUserId"/>
+		<result column="current_user_name" property="currentUserName"/>
+		<result column="current_name" property="currentName"/>
+		<result column="current_type" property="currentType"/>
+		<result column="create_date" property="createDate"/>
+ 	</resultMap>
+ 	<select id="getTicketUseRecordByTicketId" resultMap="QueryRecordVO">
+ 	select 
+ 	tr.id,
+ 	tr.ticket_id,
+ 	tr.from_user_id,
+ 	fu.user_name as from_user_name,
+ 	fu.name as from_name,
+ 	fs.type as from_user_type,
+ 	tr.current_user_id,
+ 	cu.user_name as current_user_name,
+ 	cu.name as current_name,
+ 	cs.type as current_type,
+ 	tr.create_date
+ 	from qmd_ticket_use_record tr 
+ 	left join sys_user fu on tr.from_user_id = fu.id
+ 	left join sys_user cu on tr.current_user_id = cu.id
+ 	left join sys_saleman fs on  tr.from_user_id = fs.user_id
+ 	left join sys_saleman cs on tr.current_user_id = cs.user_id
+ 	where 1=1
+ 	<if test="ticketId != null and ticketId !=''">
+ 	and tr.ticket_id = #{ticketId}
+ 	</if>
+ 	</select>
+ </mapper>

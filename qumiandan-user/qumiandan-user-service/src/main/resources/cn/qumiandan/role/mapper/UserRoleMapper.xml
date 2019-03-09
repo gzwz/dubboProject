@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.role.mapper.UserRoleMapper" >
+	<resultMap type="cn.qumiandan.role.entity.UserRole" id="UserRoleMap">
+		<id column="id" property="id" />
+	    <result column="sys_user_id" property="sysUserId"/>
+	    <result column="sys_role_id" property="sysRoleId"/>
+	    <result column="status" property="status" jdbcType="TINYINT" />
+	</resultMap>
+	
+	<resultMap type="cn.qumiandan.role.vo.UserRoleVO" id="UserRoleVOMap">
+		<id column="id" property="id" />
+	    <result column="sys_user_id" property="sysUserId" />
+	    <result column="sys_role_id" property="sysRoleId" />
+	    <result column="status" property="status"/>
+	</resultMap>
+	
+	<update id="updateUserRoleByUserId" parameterType="java.lang.Long">
+	update sys_user_role 
+	set status=0
+	where sys_user_id=#{userId}
+	</update>
+	
+	<insert id="addUserRole" parameterType="cn.qumiandan.role.entity.UserRole">
+	insert into sys_user_role
+	(sys_user_id,sys_role_id)
+	values(#{sysUserId},#{sysRoleId})
+	</insert>
+	
+	<select id="getUserRoleByUserIdAndRoleId" parameterType="java.lang.Long" resultMap="UserRoleVOMap">
+		SELECT
+			id,
+			sys_user_id,
+			sys_role_id,
+			status
+		FROM sys_user_role WHERE sys_user_id = #{userId} AND sys_role_id = #{roleId}
+	</select>
+	
+	<update id="updateUserRoleByIdAndRoleId" parameterType="java.lang.Long">
+		UPDATE sys_user_role SET sys_role_id = #{roleId} WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shirofilter.mapper.ShiroFilterMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shirofilter.entity.ShiroFilter" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="perms" property="perms" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ShiroFilterVoResultMap" type="cn.qumiandan.shirofilter.vo.ShiroFilterVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="perms" property="perms" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, name, perms, sort
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="getShiroFilterVOOrderBySort" resultMap="ShiroFilterVoResultMap">
+  	select 
+    id,name,perms,sort
+    from sys_shiro_filter
+   	order by sort asc
+  </select>
+</mapper>

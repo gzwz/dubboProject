@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.financetrade.mapper.FinanceTradeMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.financetrade.entity.FinanceTrade" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="trade_type" property="tradeType" jdbcType="SMALLINT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="BIGINT" />
+    <result column="remark_submit" property="remarkSubmit" jdbcType="VARCHAR" />
+    <result column="remark_audit" property="remarkAudit" jdbcType="VARCHAR" />
+    <result column="trade_params" property="tradeParams" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="audit_date" property="auditDate" jdbcType="TIMESTAMP" />
+    <result column="account_id" property="accountId" jdbcType="VARBINARY" />
+    <result column="serial_no" property="serialNo" jdbcType="VARBINARY" />
+    <result column="pay_channel" property="payChannel" jdbcType="VARBINARY" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, trade_type, amount, currency, auditor_id, remark_submit, remark_audit, trade_params, account_id, serial_no, pay_channel, out_trade_no,
+      status, create_date, audit_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,trade_type,amount,currency,auditor_id,remark_submit,remark_audit,trade_params,status,create_date,audit_date,account_id,serial_no,pay_channel,out_trade_no
+    ,account_id, serial_no, pay_channel, out_trade_no,
+    from finance_trade_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from finance_trade_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="cn.qumiandan.financetrade.entity.FinanceTrade" >
+    insert into finance_trade_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradeType != null" >
+        trade_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="currency != null" >
+        currency,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="remarkSubmit != null" >
+        remark_submit,
+      </if>
+      <if test="remarkAudit != null" >
+        remark_audit,
+      </if>
+      <if test="tradeParams != null" >
+        trade_params,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="auditDate != null" >
+        audit_date,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="serialNo != null" >
+        serial_no,
+      </if>
+      <if test="payChannel != null" >
+        pay_channel,
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=SMALLINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=BIGINT},
+      </if>
+      <if test="remarkSubmit != null" >
+        #{remarkSubmit,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkAudit != null" >
+        #{remarkAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeParams != null" >
+        #{tradeParams,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARBINARY},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARBINARY},
+      </if>
+      <if test="payChannel != null" >
+        #{payChannel,jdbcType=VARBINARY},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qumiandan.financetrade.entity.FinanceTrade" >
+    update finance_trade_detail
+    <set >
+      <if test="tradeType != null" >
+        trade_type = #{tradeType,jdbcType=SMALLINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=BIGINT},
+      </if>
+      <if test="remarkSubmit != null" >
+        remark_submit = #{remarkSubmit,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkAudit != null" >
+        remark_audit = #{remarkAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeParams != null" >
+        trade_params = #{tradeParams,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditDate != null" >
+        audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=VARBINARY},
+      </if>
+      <if test="serialNo != null" >
+        serial_no = #{serialNo,jdbcType=VARBINARY},
+      </if>
+      <if test="payChannel != null" >
+        pay_channel = #{payChannel,jdbcType=VARBINARY},
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no = #{outTradeNo,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

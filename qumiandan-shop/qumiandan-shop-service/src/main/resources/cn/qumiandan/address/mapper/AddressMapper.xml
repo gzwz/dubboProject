@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.address.mapper.AddressMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.address.entity.Address" >
+    <id column="code" property="code" jdbcType="INTEGER" />
+    <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_code" property="districtCode" jdbcType="INTEGER" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="INTEGER" />
+    <result column="town_name" property="townName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_open" property="isOpen" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="RegionVOMap" type="cn.qumiandan.address.vo.AddressVO" >
+    <id column="code" property="code" jdbcType="INTEGER" />
+    <result column="province_code" property="provinceCode" jdbcType="INTEGER" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_code" property="districtCode" jdbcType="INTEGER" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="INTEGER" />
+    <result column="town_name" property="townName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_open" property="isOpen" jdbcType="TINYINT" />
+  </resultMap>
+  
+   <resultMap id="AddressCodeAndNameVO" type="cn.qumiandan.address.vo.AddressCodeAndNameVO" >
+    <id column="areaCode" property="areaCode" jdbcType="INTEGER" />
+    <result column="areaName" property="areaName" jdbcType="VARCHAR" />
+    <result column="parentCode" property="parentCode" jdbcType="INTEGER" />
+    <result column="parentName" property="parentName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      code, province_code, province_name, city_code, city_name, district_code, district_name, 
+      town_code, town_name, level, full_name, name,is_open
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    code,province_code,province_name,city_code,city_name,district_code,district_name,town_code,town_name,level,full_name,name
+    ,is_open
+    from address
+    where code = #{code,jdbcType=INTEGER}
+  </select>
+	<select id="getProvince" resultMap="AddressCodeAndNameVO">
+	SELECT province_code as areaCode ,province_name as areaName ,level  from address
+	 where level=1 
+	</select>
+
+	<select id="getCityByProvinceCode" resultMap="AddressCodeAndNameVO">
+	SELECT province_code as parentCode, province_name as parentName, city_code as areaCode , city_name as areaName 
+	,level
+	 from address 
+	 where level=2
+	 and  province_code=#{provinceCode}
+	</select>
+	<select id="getDistrictByCityCode" resultMap="AddressCodeAndNameVO">
+	SELECT  city_code as parentCode,city_name  as parentName, district_code as areaCode, district_name as areaName 
+	,level
+	 from address  
+	where level=3
+	and  city_code=#{cityCode}
+	</select>
+	
+	<select id="getTownByDistrictCode" resultMap="AddressCodeAndNameVO">
+	SELECT district_code as parentCode, district_name  as parentName, town_code as areaCode, town_name as areaName
+	,level
+	  from address  
+	where level=4
+	and   district_code=#{districtCode}
+	</select>
+ 	<select id="getAddressByCode" resultMap="BaseResultMap">
+ 	SELECT
+ 	<include refid="Base_Column_List"/>
+ 	from address where 1=1
+ 	<if test="level==1">
+ 	and province_code = #{code} and level = 1
+ 	</if>
+ 	<if test="level==2">
+ 	and city_code = #{code} and level = 2
+ 	</if>
+ 	<if test="level==3">
+ 	and district_code = #{code} and level = 3
+ 	</if>
+ 	<if test="level==4">
+ 	and town_code = #{code} and level = 4
+ 	</if>
+ 	limit 1
+ 	</select>
+ 	 <select id="getAddressByName" resultMap="BaseResultMap">
+ 	SELECT
+ 	<include refid="Base_Column_List"/>
+ 	from address where 1=1
+ 	<if test="level==1">
+ 	and province_name = #{areaCode.province} and level = 1
+ 	</if>
+ 	<if test="level==2">
+ 	and province_name = #{areaCode.province} and city_name = #{areaCode.city} and level = 2
+ 	</if>
+ 	<if test="level==3">
+ 	and province_name = #{areaCode.province} and city_name = #{areaCode.city} and district_name = #{areaCode.area} and level = 3
+ 	</if>
+ 	limit 1
+ 	</select>
+ 	<select id="getCurrentCityIsOpen" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+ 	select
+	<include refid="Base_Column_List"/>
+  	from address
+ 	where level=2 and city_code=#{cityCode}
+ 	</select>
+ 	<select id="getOpenCity" resultMap="AddressCodeAndNameVO">
+ 	select  province_code as parentCode, province_name as parentName, city_code as areaCode , city_name as areaName  
+ 	,level
+ 	from address
+ 	where level=2 and is_open=1
+ 	</select>
+</mapper>

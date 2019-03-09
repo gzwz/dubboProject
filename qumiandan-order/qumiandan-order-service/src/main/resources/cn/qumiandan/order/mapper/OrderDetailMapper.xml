@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.order.mapper.OrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.order.entity.OrderDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_price" property="productPrice" jdbcType="DECIMAL" />
+    <result column="product_marque" property="productMarque" jdbcType="VARCHAR" />
+    <result column="product_mode_desc" property="productModeDesc" jdbcType="VARCHAR" />
+    <result column="product_img_url" property="productImgUrl" jdbcType="VARCHAR" />
+    <result column="discount_rate" property="discountRate" jdbcType="DECIMAL" />
+    <result column="discount_amount" property="discountAmount" jdbcType="DECIMAL" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="subtotal" property="subtotal" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, product_id, product_name, product_price, product_marque,
+      product_mode_desc, product_img_url, discount_rate, discount_amount, number, subtotal,
+      remark,attribute
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    
+ 
+    id,order_id,product_id,product_name,product_price,product_marque,product_mode_desc,product_img_url,discount_rate,discount_amount,number,subtotal,remark,attribute
+    from qmd_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from qmd_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.qumiandan.order.entity.OrderDetail" >
+    insert into qmd_order_detail (id, order_id, product_id, 
+       product_name, 
+      product_price, product_marque, product_mode_desc, 
+      product_img_url, discount_rate, discount_amount, 
+      number, subtotal, remark,attribute
+      )
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}, 
+       #{productName,jdbcType=VARCHAR}, 
+      #{productPrice,jdbcType=DECIMAL}, #{productMarque,jdbcType=VARCHAR}, #{productModeDesc,jdbcType=VARCHAR}, 
+      #{productImgUrl,jdbcType=VARCHAR}, #{discountRate,jdbcType=DECIMAL}, #{discountAmount,jdbcType=DECIMAL}, 
+      #{number,jdbcType=INTEGER}, #{subtotal,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{attribute,jdbcType=VARCHAR}
+      )
+  </insert>
+  <!-- <insert id="insertSelective" parameterType="cn.qumiandan.order.entity.OrderDetail" >
+    insert into qmd_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productPrice != null" >
+        product_price,
+      </if>
+      <if test="productMarque != null" >
+        product_marque,
+      </if>
+      <if test="productModeDesc != null" >
+        product_mode_desc,
+      </if>
+      <if test="productImgUrl != null" >
+        product_img_url,
+      </if>
+      <if test="discountRate != null" >
+        discount_rate,
+      </if>
+      <if test="discountAmount != null" >
+        discount_amount,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="subtotal != null" >
+        subtotal,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="attribute != null" >
+        attribute,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productMarque != null" >
+        #{productMarque,jdbcType=VARCHAR},
+      </if>
+      <if test="productModeDesc != null" >
+        #{productModeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgUrl != null" >
+        #{productImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="discountRate != null" >
+        #{discountRate,jdbcType=DECIMAL},
+      </if>
+      <if test="discountAmount != null" >
+        #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="subtotal != null" >
+        #{subtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        #{attribute,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert> -->
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qumiandan.order.entity.OrderDetail" >
+    update qmd_order_detail
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productPrice != null" >
+        product_price = #{productPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="productMarque != null" >
+        product_marque = #{productMarque,jdbcType=VARCHAR},
+      </if>
+      <if test="productModeDesc != null" >
+        product_mode_desc = #{productModeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="productImgUrl != null" >
+        product_img_url = #{productImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="discountRate != null" >
+        discount_rate = #{discountRate,jdbcType=DECIMAL},
+      </if>
+      <if test="discountAmount != null" >
+        discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="subtotal != null" >
+        subtotal = #{subtotal,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute != null" >
+        attribute = #{attribute,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.qumiandan.order.entity.OrderDetail" >
+    update qmd_order_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=BIGINT},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_price = #{productPrice,jdbcType=DECIMAL},
+      product_marque = #{productMarque,jdbcType=VARCHAR},
+      product_mode_desc = #{productModeDesc,jdbcType=VARCHAR},
+      product_img_url = #{productImgUrl,jdbcType=VARCHAR},
+      discount_rate = #{discountRate,jdbcType=DECIMAL},
+      discount_amount = #{discountAmount,jdbcType=DECIMAL},
+      number = #{number,jdbcType=INTEGER},
+      subtotal = #{subtotal,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      attribute = #{attribute,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="getOrderDetailListByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qmd_order_detail
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+</mapper>

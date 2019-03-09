@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.user.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.user.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="alipay_id" property="alipayId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="p_id" property="pId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="UserVOResultMap" type="cn.qumiandan.user.vo.UserVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="alipay_id" property="alipayId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="p_id" property="pId" jdbcType="BIGINT" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="token" property="token"/>
+    <result column="last_login_date" property="lastLoginDate"/>
+  </resultMap>
+  <resultMap id="UserAndUserInfoMap" type="cn.qumiandan.user.vo.UserAddVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="alipay_id" property="alipayId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="p_id" property="pId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="token" property="token"/>
+    <result column="last_login_date" property="lastLoginDate"/>
+  </resultMap>
+  <sql id="BASE_TABLE">
+    sys_user
+  </sql>
+  <sql id="BASE_COLUMN">
+    id,user_name,password,phone
+  </sql>
+  <sql id="USER_VO_COLUMN">
+    s.id,s.user_name,s.password,s.union_id,s.open_id,s.alipay_id,s.name,s.org_id,s.p_id,s.pro_code,s.city_code,s.country_code,s.status,
+      u.nick_name,u.real_name,u.id_card,u.mobile,u.phone,u.sex,u.email,u.bank_account,u.birthday,u.portrait,u.token,u.last_login_date
+  </sql>
+  <select id="getUserByUsername" parameterType="java.lang.String" resultMap="UserVOResultMap">
+    SELECT
+    <include refid="USER_VO_COLUMN" />
+    FROM sys_user s
+    LEFT JOIN sys_user_info u ON s.id = u.user_id
+    WHERE s.status=1 and  s.user_name = #{userName}
+  </select>
+  <select id="getUserByUnionidOrOpenId" resultMap="UserVOResultMap">
+    SELECT
+    <include refid="USER_VO_COLUMN" />
+    FROM sys_user s
+    LEFT JOIN sys_user_info u ON s.id = u.user_id
+    WHERE 1=1 and s.status=1 
+    <if test="unionId != null" >
+      AND s.union_id = #{unionId}
+    </if>
+    <if test="openId != null" >
+      AND s.open_id = #{openId}
+    </if>
+  </select>
+  <select id="getUserByUsernameAndPwd" resultMap="UserVOResultMap">
+    SELECT
+    <include refid="USER_VO_COLUMN" />
+    FROM sys_user s
+    LEFT JOIN sys_user_info u ON s.id = u.user_id
+    WHERE s.status=1 and  s.user_name = #{userName}
+    AND s.password = #{password}
+  </select>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="cn.qumiandan.user.entity.User" >
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="unionId != null" >
+        union_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="alipayId != null" >
+        alipay_id,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="proCode != null" >
+        pro_code,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayId != null" >
+        #{alipayId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="proCode != null" >
+        #{proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateUserById" parameterType="cn.qumiandan.user.entity.User">
+  update sys_user 
+  <set>
+  
+      <if test="unionId != null" >
+        union_id=#{unionId},
+      </if>
+      <if test="userName != null" >
+        user_name=#{userName},
+      </if>
+      <if test="openId != null" >
+        open_id=#{openId},
+      </if>
+      <if test="alipayId != null" >
+        alipay_id =#{alipayId},
+      </if>
+      <if test="password != null" >
+        password=#{password},
+      </if>
+      <if test="salt != null" >
+       salt= #{salt},
+      </if>
+      <if test="name != null" >
+        name=#{name},
+      </if>
+      <if test="orgId != null" >
+        org_id=#{orgId},
+      </if>
+      <if test="pId != null" >
+        p_id=#{pId},
+      </if>
+      <if test="status != null" >
+       status= #{status},
+      </if>
+      <if test="proCode != null" >
+       pro_code= #{proCode},
+      </if>
+      <if test="cityCode != null" >
+        city_code=#{cityCode},
+      </if>
+      <if test="countryCode != null" >
+       country_code= #{countryCode},
+      </if>
+      <if test="version != null" >
+       version= #{version},
+      </if>
+      <if test="createId != null" >
+        create_id=#{createId},
+      </if>
+      <if test="updateId != null" >
+        update_id=#{updateId},
+      </if>
+      <if test="createDate != null" >
+        create_date=#{createDate},
+      </if>
+      <if test="updateDate != null" >
+        update_date=#{updateDate},
+  </if>
+  </set>
+  where  id = #{id}
+  </update>
+  
+ <select id="getUserAndUserInfo" resultMap="UserAndUserInfoMap">
+ select 
+ <include refid="USER_VO_COLUMN"/>
+ from sys_user s left join sys_user_info u on s.id=u.user_id where s.status=1
+ </select>
+ <resultMap id="RoleVOResultMap" type="cn.qumiandan.role.vo.RoleVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="ealias" property="ealias" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+ 
+  <select id="getRoleByUserName" resultMap="RoleVOResultMap" parameterType="java.lang.String">
+ select r.id, r.sort, r.name, r.dept_id, r.ealias, r.create_id, r.update_id, r.create_date, r.update_date,r.status
+ from sys_user u LEFT JOIN sys_user_role ur on u.id=ur.sys_user_id  
+LEFT JOIN sys_role r on ur.sys_role_id=r.id where r.status=1 and  u.status=1 
+and  u.user_name=#{userName}
+ </select>
+ 
+ 	<select id="getUserById" parameterType="java.lang.Long" resultMap="UserVOResultMap">
+		SELECT
+    		<include refid="USER_VO_COLUMN" />
+    	FROM sys_user s
+    	LEFT JOIN sys_user_info u ON s.id = u.user_id
+    	WHERE s.id = #{id}
+ 	</select>
+ 	<update id="setPassword" >
+ 	update sys_user set  password=#{password}
+ 	where user_name=#{userName}
+ 	</update>
+ 	<select id="backStageQueryUser" resultMap="UserVOResultMap">
+ 		select 
+ 		<include refid="USER_VO_COLUMN"/>
+ 		from sys_user s 
+ 		left join sys_user_info u on s.id = u.user_id
+ 		where  1=1
+ 		<if test="paramsVO.userName != null">
+ 		and	s.user_name like concat(#{paramsVO.userName },'%')
+ 		</if>
+ 		<if test="paramsVO.sex != null">
+ 		and	u.sex = #{paramsVO.sex }
+ 		</if>
+ 		<if test="paramsVO.inputInfo != null">
+ 		and	(
+ 			s.user_name like concat(#{paramsVO.inputInfo },'%')
+ 			or s.name like concat(#{paramsVO.inputInfo },'%')
+ 			or u.nick_name like concat(#{paramsVO.inputInfo },'%')
+ 		)
+ 		</if>
+		<if test="paramsVO.proCode != null">
+ 			and	s.pro_code =  #{paramsVO.proCode }
+ 		</if>
+ 		<if test="paramsVO.cityCode != null">
+ 			and	s.city_code =  #{paramsVO.cityCode }
+ 		</if>
+ 		<if test="paramsVO.countryCode != null">
+ 			and	s.country_code =  #{paramsVO.countryCode }
+ 		</if>
+ 		<if test="paramsVO.status != null">
+ 			and	s.status =  #{paramsVO.status }
+ 		</if>
+ 		<if test="paramsVO.status == null">
+ 			and	s.status in (1,2)
+ 		</if>
+		<if test="paramsVO.startCreateDate != null">
+ 			and	s.create_date &gt;=  #{paramsVO.startCreateDate }
+ 		</if>
+ 		<if test="paramsVO.endCreateDate != null">
+ 			and	s.create_date &lt;=  #{paramsVO.endCreateDate }
+ 		</if>
+		order by s.create_date desc
+ 	</select>
+</mapper>

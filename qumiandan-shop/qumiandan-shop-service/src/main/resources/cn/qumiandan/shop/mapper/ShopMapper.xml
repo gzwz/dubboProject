@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shop.mapper.ShopMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shop.entity.Shop" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="shop_type_id" property="shopTypeId" jdbcType="BIGINT" />
+    <result column="industry_id" property="industryId" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="license_type" property="licenseType"/>
+    <result column="merchant_company" property="merchantCompany"/>
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="merchant_person" property="merchantPerson"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="saleman_id" property="salemanId" jdbcType="BIGINT" />
+    <result column="shop_admin_id" property="shopAdminId"/>
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ShopVOResultMap" type="cn.qumiandan.shop.vo.ShopVO" >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="shop_type_id" property="shopTypeId" jdbcType="BIGINT" />
+    <result column="industry_id" property="industryId" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="license_type" property="licenseType"/>
+    <result column="merchant_company" property="merchantCompany"/>
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="merchant_person" property="merchantPerson"/>
+    <result column="saleman_id" property="salemanId" jdbcType="BIGINT" />
+    <result column="shop_admin_id" property="shopAdminId"/>
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="card_holder" property="cardHolder" jdbcType="VARCHAR" />
+    <result column="corporation" property="corporation" jdbcType="VARCHAR" />
+    <result column="legal_id_num" property="legalIdNum" />
+    <result column="max_scan" property="maxScan" jdbcType="DECIMAL" />
+    <result column="max_sale" property="maxSale" jdbcType="DECIMAL" />
+    <result column="max_free" property="maxFree" jdbcType="DECIMAL" />
+    <result column="dispatch_begin_money" property="dispatchBeginMoney" jdbcType="DECIMAL" />
+    <result column="open_time" property="openTime"  />
+    <result column="rest_time" property="restTime"  />
+    <result column="item" property="item" jdbcType="VARCHAR" />
+    <result column="is_open_shut" property="isOpenShut" jdbcType="TINYINT" />
+    <result column="total_income" property="totalIncome" jdbcType="DECIMAL" />
+    <result column="support_payment" property="supportPayment" jdbcType="VARCHAR" />
+  	<result column="merchant_no" property="merchantNo" jdbcType="VARCHAR" />
+  	<result column="terminal_id" property="terminalId" jdbcType="VARCHAR" />
+  	<result column="access_token" property="accessToken" jdbcType="VARCHAR" />  	
+  	<result column="sales_volume" property="salesVolume" jdbcType="BIGINT" />
+  	<result column="hot_exponent" property="hotExponent" jdbcType="DECIMAL" />
+  	<result column="per_capita_consume" property="perCapitaConsume"  />  
+  </resultMap>
+  <resultMap id="ShopBasicInfoVOMap" type="cn.qumiandan.shop.vo.ShopBasicInfoVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+  </resultMap>
+	<resultMap id="ShopInfoVOMap" type="cn.qumiandan.shop.vo.ShopInfoVO" >
+	    <id column="id" property="id" />
+	    <result column="name" property="name"/>
+	    <result column="description" property="description"/>
+	    <result column="shopTypeName" property="shopTypeName"/>
+	    <result column="logo" property="logo"/>
+	    <result column="status" property="status"/>
+	    <result column="longitude" property="longitude"/>
+	    <result column="per_capita_consume" property="perCapitaConsume"/>
+	    <result column="latitude" property="latitude"/>
+	    <result column="address" property="address"/>
+	    <result column="phone" property="phone"/>
+	    <result column="openTime" property="openTime"/>
+	    <result column="restTime" property="restTime"/>
+	    <result column="item" property="item"/>
+	    <result column="isOpenShut" property="isOpenShut"/>
+	    <result column="industryName" property="industryName"/>
+	</resultMap>
+  <sql id="Base_Column_List" >
+      id, name, description, shop_type_id,industry_id, license,license_type,merchant_company, logo, longitude, latitude, pro_code,
+      city_code, county_code, town_code, address,merchant_person, phone,saleman_id,shop_admin_id, create_date, update_date, create_id,
+      update_id, status
+  </sql>
+  <!--<select id="getIndexShopList" resultMap="ShopVOResultMap"  >
+    select
+    <include refid="SHOP_VO_COLUMN" />
+    from qmd_shop s
+    where s.status=3
+  </select>-->
+  <!--<select id="getIndexShopListByType" resultMap="ShopVOResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="SHOP_VO_COLUMN" />
+    from qmd_shop s
+    where s.status=3 and shop_type_id = #{type,jdbcType=BIGINT}
+  </select>-->
+
+  <!--<select id="getShopListLike" resultMap="ShopVOResultMap" parameterType="java.lang.String" >
+  select 
+  <include refid="SHOP_VO_COLUMN" ></include>
+  from qmd_shop s left join qmd_shop_category c on s.shop_type_id=c.id
+  where s.status=3 and
+  (s.name like #{inputInfo,jdbcType=VARCHAR}
+  or s.description like #{inputInfo,jdbcType=VARCHAR}
+  or c.name like #{inputInfo,jdbcType=VARCHAR})
+  </select>-->
+  <select id="getShopDynamic" resultMap="ShopBasicVO" parameterType="cn.qumiandan.shop.vo.ShopDynamicVO" >
+ SELECT 
+	  s.id, 
+	  s.name, 
+	  s.description, 
+	  s.shop_type_id, 
+	  s.license, 
+	  s.license_type,
+	  s.merchant_company,
+	  s.logo, 
+	  s.longitude, 
+	  s.latitude, 
+	  s.pro_code,
+	  s.city_code, 
+	  s.county_code, 
+	  s.town_code, 
+	  s.address, 
+	  s.merchant_person,
+	  s.phone, 
+	  s.saleman_id,
+	  s.shop_admin_id,
+	  s.create_date, 
+	  s.update_date, 
+	  s.create_id,
+	  s.update_id, 
+	  s.status,
+	  se.bank_account,
+	  se.bank_id,
+	  se.card_holder,
+	  se.corporation,
+	  se.legal_id_num,
+	  se.max_scan,
+	  se.max_sale,
+	  se.max_free,
+	  se.dispatch_begin_money,
+	  se.game_switch,
+	  se.open_time,
+	  se.rest_time,
+	  se.item,
+	  se.is_open_shut,
+	  se.total_income,
+	  se.support_payment,
+	  se.merchant_no,
+	  se.terminal_id,
+	  se.access_token,
+	  se.sales_volume,
+	  se.hot_exponent,
+	  se.per_capita_consume
+  FROM  qmd_shop s LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+  left join  qmd_shop_category sc on s.shop_type_id= sc.id
+  where 1=1
+  <if test="status != null">
+  and s.status=#{status}
+  </if>
+  <if test="id != null">
+  	and s.id = #{id}
+  </if>
+  <if test="merchantPerson != null and merchantPerson != ''">
+    and s.merchant_person like concat( #{merchantPerson},'%')
+  </if>
+  <if test="phone != null and phone != ''">
+  	and s.phone like concat( #{phone},'%')
+  </if>
+  <if test="statusList != null and statusList.size>0">
+  and s.status in
+  	<foreach collection="statusList" item="item" open="(" close=")" separator=",">
+    #{item}
+    </foreach>
+  </if>
+  <if test="salemanId !=null">
+  and saleman_id=#{salemanId}
+  </if>
+  <if test="industryId != null" >
+    and  s.industry_id = #{industryId}
+  </if>
+  <if test="shopTypeId != null" >
+    and  s.shop_type_id = #{shopTypeId}
+  </if>
+  <if test="level == 1">
+   and  s.pro_code = #{code}
+  </if>
+  <if test="level == 2">
+   and  s.city_code = #{code}
+  </if>
+  <if test="level == 3">
+   and  s.county_code = #{code}
+  </if>
+  <if test="level == 4">
+   and  s.town_code = #{code}
+  </if>
+  <if test="startCreateDate != null">
+   and  s.create_date &gt;= #{startCreateDate}
+  </if>
+  <if test="endCreateDate != null">
+   and  s.create_date &lt;= #{endCreateDate}
+  </if>
+  <if test="isNearby == true ">
+  	<if test="userLongitude != null and userLongitude != '' and userLatitude != null and userLatitude != ''">
+    and get_distance(s.longitude,s.latitude,#{userLongitude},#{userLatitude} )&lt;= 100000
+  	</if>
+  </if>
+  <if test="inputInfo != null and inputInfo != ''" >
+    and  (se.item like concat(#{inputInfo},'%')  or s.name like concat(#{inputInfo},'%'))
+  </if>
+  <if test="sortByDistance != null" >
+  	<if test="userLongitude != null and userLongitude != '' and userLatitude != null and userLatitude != ''">
+   		order by get_distance(s.longitude,s.latitude,#{userLongitude},#{userLatitude} )
+   			<if test="sortByDistance == 1" >
+   				desc
+   			</if>
+ 	 	</if>
+ 	 </if>
+  <if test="sortByCreateTime != null" >
+   	order by s.create_date
+   	<if test="sortByCreateTime == 1" >
+   		desc
+   	</if>
+  </if>
+  </select>
+  <resultMap id="ShopBasicVO" type="cn.qumiandan.shop.vo.ShopBasicVO">
+  	<id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="shop_type_id" property="shopTypeId" jdbcType="BIGINT" />
+    <result column="industry_id" property="industryId" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="license_type" property="licenseType" />
+    <result column="merchant_company" property="merchantCompany" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="merchant_person" property="merchantPerson"  />
+    <result column="saleman_id" property="salemanId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="BIGINT" />
+    <result column="card_holder" property="cardHolder" jdbcType="VARCHAR" />
+    <result column="corporation" property="corporation" jdbcType="VARCHAR" />
+    <result column="legal_id_num" property="legalIdNum" />
+    <result column="max_scan" property="maxScan" jdbcType="DECIMAL" />
+    <result column="max_sale" property="maxSale" jdbcType="DECIMAL" />
+    <result column="max_free" property="maxFree" jdbcType="DECIMAL" />
+    <result column="dispatch_begin_money" property="dispatchBeginMoney" jdbcType="DECIMAL" />
+    <result column="game_switch" property="gameSwitch"/>
+    <result column="open_time" property="openTime"  />
+    <result column="rest_time" property="restTime"  />
+    <result column="item" property="item" jdbcType="VARCHAR" />
+    <result column="is_open_shut" property="isOpenShut" jdbcType="TINYINT" />
+    <result column="total_income" property="totalIncome" jdbcType="DECIMAL" />
+    <result column="members_limit" property="membersLimit" jdbcType="INTEGER" />
+    <result column="support_payment" property="supportPayment" jdbcType="VARCHAR" />
+   	<result column="merchant_no" property="merchantNo" jdbcType="VARCHAR" />
+  	<result column="terminal_id" property="terminalId" jdbcType="VARCHAR" />
+  	<result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+  	<result column="sales_volume" property="salesVolume" jdbcType="BIGINT" />
+  	<result column="hot_exponent" property="hotExponent" jdbcType="DECIMAL" />
+  	<result column="per_capita_consume" property="perCapitaConsume"/>
+  </resultMap>
+  <select id="getShopByManager" resultMap="ShopBasicVO" parameterType="java.util.List">
+  SELECT 
+	  s.id, 
+	  s.name, 
+	  s.description, 
+	  s.shop_type_id,
+	  s.industry_id ,
+	  s.license, 
+	  s.license_type,
+	  s.merchant_company,
+	  s.logo, 
+	  s.longitude, 
+	  s.latitude, 
+	  s.pro_code,
+	  s.city_code, 
+	  s.county_code, 
+	  s.town_code, 
+	  s.address, 
+	  s.merchant_person,
+	  s.phone, 
+	  s.saleman_id,
+	  s.shop_admin_id,
+	  s.create_date, 
+	  s.update_date, 
+	  s.create_id,
+	  s.update_id,
+	  s.status,
+	  se.bank_account,
+	  se.bank_id,
+	  se.card_holder,
+	  se.corporation,
+	  se.legal_id_num,
+	  se.max_scan,
+	  se.max_sale,
+	  se.max_free,
+	  se.dispatch_begin_money,
+	  se.game_switch,
+	  se.open_time,
+	  se.rest_time,
+	  se.item,
+	  se.is_open_shut,
+	  se.total_income,
+	  se.support_payment,
+	  se.merchant_no,
+	  se.terminal_id,
+	  se.access_token,
+	  se.sales_volume,
+	  se.hot_exponent,
+	  se.per_capita_consume
+  FROM  qmd_shop s LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+  WHERE s.id IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </select>
+  <select id="getUserShopByManager" resultMap="ShopBasicVO" parameterType="java.util.List">
+  SELECT
+	  s.id,
+	  s.name,
+	  s.description,
+	  s.shop_type_id,
+	  s.industry_id,
+	  s.license,
+	  s.license_type,
+	  s.merchant_company,
+	  s.logo,
+	  s.longitude,
+	  s.latitude,
+	  s.pro_code,
+	  s.city_code,
+	  s.county_code,
+	  s.town_code,
+	  s.address,
+	  s.merchant_person,
+	  s.phone,
+	  s.saleman_id,
+	  s.shop_admin_id,
+	  s.create_date,
+	  s.update_date,
+	  s.create_id,
+	  s.update_id,
+	  s.status,
+	  se.bank_account,
+	  se.bank_id,
+	  se.card_holder,
+	  se.corporation,
+	  se.legal_id_num,
+	  se.max_scan,
+	  se.max_sale,
+	  se.max_free,
+	  se.dispatch_begin_money,
+	  se.game_switch,
+	  se.open_time,
+	  se.rest_time,
+	  se.item,
+	  se.is_open_shut,
+	  se.total_income,
+	  se.support_payment,
+	  se.merchant_no,
+	  se.terminal_id,
+	  se.access_token,
+	  se.sales_volume,
+	  se.hot_exponent,
+	  se.per_capita_consume
+  FROM  qmd_shop s
+  LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+  WHERE s.id IN
+    <foreach item="item" index="index" collection="shopUserInfoVOList" open="(" separator="," close=")">
+        #{item.shopId}
+    </foreach>
+  </select>
+
+  <select id="getShopBasicById" resultMap="ShopBasicVO" parameterType="java.lang.Long">
+      SELECT
+      s.id,
+      s.name,
+      s.description,
+      s.shop_type_id,
+      s.industry_id,
+      s.license,
+      s.license_type,
+	  s.merchant_company,
+      s.logo,
+      s.longitude,
+      s.latitude,
+      s.pro_code,
+      s.city_code,
+      s.county_code,
+      s.town_code,
+      s.address,
+      s.merchant_person,
+      s.phone,
+      s.saleman_id,
+      s.shop_admin_id,
+      s.status,
+      se.bank_account,
+      se.game_switch,
+      se.bank_id,
+      se.card_holder,
+      se.corporation,
+      se.legal_id_num,
+      se.max_scan,
+      se.max_sale,
+      se.max_free,
+      se.dispatch_begin_money,
+      se.game_switch,
+      se.open_time,
+      se.rest_time,
+      se.item,
+      se.is_open_shut,
+      se.total_income,
+      se.members_limit,
+      se.support_payment,
+	  se.merchant_no,
+	  se.terminal_id,
+	  se.access_token,
+	  se.sales_volume,
+	  se.hot_exponent,
+	  se.per_capita_consume
+      FROM  qmd_shop s LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+      WHERE s.id = #{shopId}
+  </select>
+  <sql id="ShopBasicVO_Column_List" >
+	  s.id,
+      s.name,
+      s.description,
+      s.shop_type_id,
+      s.license,
+      s.license_type,
+	  s.merchant_company,
+      s.logo,
+      s.longitude,
+      s.latitude,
+      s.pro_code,
+      s.city_code,
+      s.county_code,
+      s.town_code,
+      s.address,
+      s.merchant_person,
+      s.phone,
+      s.saleman_id,
+      s.shop_admin_id,
+      se.bank_account,
+      se.bank_id,
+      se.card_holder,
+      se.corporation,
+      se.legal_id_num,
+      se.max_scan,
+      se.max_sale,
+      se.max_free,
+      se.dispatch_begin_money,
+      se.game_switch,
+      se.open_time,
+      se.rest_time,
+      se.item,
+      se.is_open_shut,
+      se.total_income,
+      se.members_limit,
+      se.support_payment,
+	  se.merchant_no,
+	  se.terminal_id,
+	  se.access_token,
+	  se.sales_volume,
+	  se.hot_exponent,
+	  se.per_capita_consume
+  </sql>
+  
+    <select id="getShopBasicInfoByShopId" resultMap="ShopBasicInfoVOMap" parameterType="java.lang.Long">
+        select id,name,create_id ,pro_code,
+      city_code,
+      county_code,logo
+        from qmd_shop
+        where id = #{shopId}
+    </select>
+    <select id="getShopByCodeAndLevel"  resultMap="ShopBasicVO">
+    select 
+    <include refid="ShopBasicVO_Column_List"/>
+	  FROM  qmd_shop s 
+    LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+      WHERE 1=1
+     <if test="level==1">
+     and s.pro_code = #{code}
+     </if>
+     <if test="level==2">
+     and s.city_code = #{code}
+     </if>
+     <if test="level==3">
+      and s.county_code=#{code}
+     </if>
+     <if test="level==4">
+      and s.town_code=#{code}
+     </if>
+    </select>
+    <select id="getShopStatus" resultType="java.lang.Byte" parameterType="java.lang.Long">
+    select status from qmd_shop where id=#{shopId} 
+    </select>
+    
+    <update id="updateShopStatus">
+    	UPDATE qmd_shop SET status = #{status} WHERE id = #{shopId}
+    </update>
+    <select id="getShopByMerchantNo" parameterType="java.lang.String"  resultMap="ShopBasicVO">
+    select 
+    <include refid="ShopBasicVO_Column_List"/>
+	  FROM  qmd_shop s 
+    LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+      WHERE se.merchant_no=#{merchantNo}
+    </select>
+    <select id="getShopByShopQuery" resultMap="ShopBasicVO">
+    select 
+    <include refid="ShopBasicVO_Column_List"/>
+	  FROM  qmd_shop s 
+    LEFT JOIN qmd_shop_extend se ON s.id = se.shop_id
+      WHERE 1=1
+      <if test="shopQueryParamVO.shopName!=null">
+      and s.name like concat(#{shopQueryParamVO.shopName},'%')
+      </if>
+      <if test="shopQueryParamVO.status!=null">
+      and s.status = #{shopQueryParamVO.status}
+      </if>
+      <if test="shopQueryParamVO.salemanId!=null">
+     and  s.saleman_id = #{shopQueryParamVO.salemanId}
+      </if>
+      <if test="shopQueryParamVO.startCreateDate != null">
+      and s.create_date &gt;= #{shopQueryParamVO.startCreateDate}
+      </if>
+      <if test="shopQueryParamVO.endCreateDate != null">
+      and s.create_date &lt;= #{shopQueryParamVO.endCreateDate}
+      </if>
+      <if test="shopQueryParamVO.statusList != null and shopQueryParamVO.statusList.size()>0">
+       	<foreach collection="shopQueryParamVO.statusList" item="status" open="(" close=")" separator=",">
+   			 #{status}
+    	</foreach>
+      </if>
+      order by s.create_date desc
+    </select>
+    <select id="getShopInfoById" resultMap="ShopInfoVOMap">
+    	SELECT
+    		sh.id AS id,
+    		sh.name AS name,
+    		sh.description AS description,
+    		sc.name AS shopTypeName,
+    		sh.logo AS logo,
+    		sh.longitude AS longitude,
+    		sh.latitude AS latitude,
+    		sh.address AS address,
+    		sh.phone AS phone,
+    		sh.status AS status,
+    		she.per_capita_consume,
+    		she.open_time AS openTime,
+    		she.rest_time AS restTime,
+    		she.item AS item,
+    		she.is_open_shut AS isOpenShut,
+    		ins.name AS industryName
+    	FROM qmd_shop sh
+    	LEFT JOIN qmd_shop_extend she ON sh.id = she.shop_id
+    	LEFT JOIN qmd_industry_info ins ON sh.industry_id = ins.id
+    	LEFT JOIN qmd_shop_category sc ON sc.id = sh.shop_type_id
+    	WHERE sh.id = #{shopId}
+    </select>
+    	<select id="getShopNumBySalemanId" resultType="java.lang.Integer">
+		select 
+		count(*)
+		 from qmd_shop 
+		 where 
+		 saleman_id = #{salemanId}
+		 <if test="status != null">
+		 and status = #{status}
+		 </if>
+		 <if test="startCreateDate != null">
+		 and 	create_date &gt;= #{startCreateDate}
+		 </if>
+		 <if test="endCreateDate != null">
+		 and 	create_date &lt; #{endCreateDate}
+		 </if>
+	</select>
+</mapper>

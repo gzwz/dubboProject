@@ -1,0 +1,94 @@
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+    max-http-header-size: 3145728
+  # 启用压缩
+  compression:
+    enabled: true
+    mime-types:
+    - application/json
+    - application/xml
+    - text/html
+    - text/xml
+    - text/plain
+    - application/javascript
+    
+spring:
+  application:
+    name: qumiandan-web
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/jsp/
+#      suffix: .jsp
+  servlet:
+    multipart:
+      # 上传一个文件最大值,默认1Mb
+      max-file-size: 5MB
+      # 上传多个文件最大值,50Mb,默认10Mb
+      max-request-size: 10MB
+#dubbo配置
+  dubbo: 
+     server: false
+     retries: 0
+     timeout: 10000
+     application: #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。 
+        name: qmd-web-consumer 
+        id: qmd-web-consumer
+        owner: qmd-web
+     registry: #注册中心配置，用于配置连接注册中心相关信息。 
+        address: zookeeper://192.168.101.90:2181 
+     protocol: #协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。 
+        name: dubbo 
+        port: 20880 
+     scan: cn.qumiandan #服务暴露与发现消费所在的package
+
+#redis配置
+  redis:
+    host: 192.168.101.80
+#    host: 192.168.101.38
+    port: 6379
+    password: 123456
+    timeout: 3000
+    jedis: 
+      pool:
+        # 连接池中的最大空闲连接，默认值也是8。
+        max-idle: 10
+        # 连接池中的最小空闲连接，默认值也是0。
+        min-idle: 0
+        # 如果赋值为-1，则表示不限制；如果pool已经分配了maxActive个jedis实例，则此时pool的状态为exhausted(耗尽)。
+        max-active: 20
+        # 等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
+        max-wait: 1000
+shiro:
+  #目前设置为1星期过期
+  timeout: 604800      
+
+logging:
+  config: classpath:logback-prod.xml
+  
+  
+# 产品名称:云通信短信API产品,开发者无需替换
+alisms:
+  product: Dysmsapi
+  # 产品域名,开发者无需替换
+  domain: dysmsapi.aliyuncs.com
+  # 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
+  accessKeyId: LTAIfV78WV2rLNmE
+  accessKeySecret: sLBQmRvmiqD7xdFFYNQSzkvZDgI0XT
+  
+#七牛云存储服务
+qiniu:
+  accessKey: k8tVMp_lysmGPwnJxx0M74JHAkVM_iyvyre5F0nC
+  secretKey: k0by60pDuyJUvLJdBJqgkayilpZOElaMT_K8kGLg
+  bucket: qmd-img
+  domainOfBucket: http://phr2czqqv.bkt.clouddn.com/
+  
+  
+  
+  

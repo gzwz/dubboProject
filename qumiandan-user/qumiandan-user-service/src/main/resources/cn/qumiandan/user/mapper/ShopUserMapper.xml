@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.user.mapper.ShopUserMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.user.entity.ShopUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="remark_name" property="remarkName" />
+    <result column="user_role_id" property="userRoleId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ShopUserVOMap" type="cn.qumiandan.user.vo.ShopUserVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="remark_name" property="remarkName" />
+    <result column="user_role_id" property="userRoleId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ShopUserPageVOResultMap" type="cn.qumiandan.user.vo.ShopUserPageVO" >
+    <id column="id" property="id" />
+    <result column="shopId" property="shopId"  />
+    <result column="userId" property="userId"  />
+    <result column="nickName" property="nickName"  />
+    <result column="userRoleId" property="userRoleId" />
+    <result column="remarkName" property="remarkName" />
+    <result column="roleId" property="roleId" />
+    <result column="roleName" property="roleName"  />
+    <result column="userName" property="userName"  />
+    <!--<result column="createDate" property="createDate"  />-->
+    <!--<result column="updateDate" property="updateDate" />-->
+    <!--<result column="createId" property="createId" />-->
+    <!--<result column="updateId" property="updateId"  />-->
+    <result column="status" property="status" />
+  </resultMap>
+  <resultMap id="ShopUserDetailVOResultMap" type="cn.qumiandan.user.vo.ShopUserDetailVO" >
+    <id column="id" property="id" />
+    <result column="shopId" property="shopId"  />
+    <result column="userId" property="userId"  />
+    <result column="nickName" property="nickName"  />
+    <result column="userRoleId" property="userRoleId" />
+    <result column="remarkName" property="remarkName" />
+    <result column="roleId" property="roleId" />
+    <result column="roleName" property="roleName"  />
+    <result column="status" property="status" />
+    <result column="userName" property="userName" />
+  </resultMap>
+  <resultMap id="ShopUserVOResultMap" type="cn.qumiandan.user.vo.ShopUserVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_role_id" property="userRoleId" jdbcType="BIGINT" />
+    <result column="remark_name" property="remarkName" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap type="cn.qumiandan.user.vo.ShopUserRoleVO" id="ShopUserRoleVO">
+  	<id column="id" property="id"/>
+  	<result column="user_id" property="userId"/>
+  	<result column="user_name" property="userName"/>
+  	<result column="name" property="name"/>
+  	<result column="role_id" property="roleId"/>
+  	<result column="role_name" property="roleName"/> 
+  	<result column="remark_name" property="remarkName" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, shop_id, user_id, user_role_id,remark_name, create_date, update_date, create_id, update_id, status
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    id,shop_id,user_id,user_role_id,remark_name,create_date,update_date,create_id,update_id,status
+    from sys_shop_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="cn.qumiandan.user.vo.ShopUserVO" >
+    insert into sys_shop_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userRoleId != null" >
+        user_role_id,
+      </if>
+      <if test="remarkName != null" >
+        remark_name,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{"userId != null",jdbcType=BIGINT},
+      </if>
+      <if test="userRoleId != null" >
+        #{userRoleId,jdbcType=TINYINT},
+      </if>
+      <if test="remarkName != null" >
+        #{remarkName},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qumiandan.user.entity.ShopUser" >
+    update sys_shop_user
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userRoleId != null" >
+        user_role_id = #{userRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="remarkName != null" >
+        remark_name = #{remarkName},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+   <select id="getShopUserPageListByUserId" resultMap="ShopUserPageVOResultMap" parameterType="cn.qumiandan.common.request.CommonParams">
+	SELECT 
+		shopInfo.id,
+	    shopInfo.shopId,
+	    shopInfo.userId,
+	    shopInfo.userRoleId,
+	    shopInfo.remarkName, 
+	    role.id AS roleId,
+		role.name AS roleName,
+		usInfo.nick_name AS nickName,
+	    shopInfo.`status` AS `status`,
+	    sur.user_name AS userName
+	FROM (SELECT 
+				shop.id AS id,
+				shop.shop_id AS shopId, 
+				shop.user_id AS userId, 
+				shop.user_role_id AS userRoleId, 
+				shop.remark_name AS remarkName, 
+				shop.status AS `status` 
+		  FROM sys_shop_user shop WHERE shop.shop_id IN (SELECT shop_id FROM sys_shop_user WHERE user_id = #{params.userId}) AND  <![CDATA[shop.user_id != #{params.userId}]]>  
+	) shopInfo 
+	LEFT JOIN sys_user sur ON sur.id = shopInfo.userId 
+	LEFT JOIN sys_user_info usInfo ON shopInfo.userId = usInfo.user_id
+	LEFT JOIN sys_user_role userRole ON shopInfo.userRoleId = userRole.id
+	LEFT JOIN sys_role role ON role.id = userRole.sys_role_id
+	WHERE 1 = 1
+	 <if test="params.name != null" >
+        AND usInfo.nick_name = #{params.name}
+      </if>
+      <if test="params.mobile != null" >
+        AND sur.user_name = #{params.mobile}
+      </if>
+   </select>
+   <select id="getShopUserListByUserId" parameterType="java.lang.Long" resultMap="ShopUserVOMap">
+   	select id,shop_id,user_id,user_role_id,remark_name,status
+   	from sys_shop_user
+   	where user_id = #{userId}
+   	and status = 1
+   </select>
+   <select id="getShopUserDetailInfoById" resultMap="ShopUserDetailVOResultMap" parameterType="java.lang.Long" >
+   SELECT
+		shop.id AS id,
+		shop.shop_id AS shopId, 
+		shop.user_id AS userId,
+		shop.user_role_id AS userRoleId,
+		shop.remark_name as remarkName,
+		role.id AS roleId,
+		role.name AS roleName,
+		usInfo.nick_name AS nickName,
+		sur.user_name AS userName,
+		shop.status AS `status`
+	FROM sys_shop_user shop
+	LEFT JOIN sys_user sur ON sur.id = shop.user_id
+	LEFT JOIN sys_user_info usInfo ON shop.user_id = usInfo.user_id
+	LEFT JOIN sys_user_role userRole ON shop.user_role_id = userRole.id
+	LEFT JOIN sys_role role ON role.id = userRole.sys_role_id
+	WHERE shop.id = #{id}
+   </select>
+   
+   <select id="getShopUserInfoByUserIdAndUserRoleId" resultMap="ShopUserVOResultMap" parameterType="java.lang.Long" >
+    SELECT
+		id, 
+		shop_id, 
+		user_id, 
+		user_role_id, 
+		remark_name,
+		create_date, 
+		update_date, 
+		create_id, 
+		update_id, 
+		status
+	FROM sys_shop_user WHERE user_id = #{userId} AND user_role_id = #{userRoleId}
+   </select>
+
+   	<select id="getUserShopIdListByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+   		SELECT shop_id FROM sys_shop_user WHERE user_id = #{userId} AND status = 1
+   	</select>
+   	<select id="countMemberShopNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+   		SELECT COUNT(ID) FROM sys_shop_user WHERE user_id = #{userId}
+   	</select>
+   	<delete id="deleteShopUserInfoByUserId" parameterType="java.lang.Long">
+		DELETE FROM sys_shop_user WHERE user_id = #{userId}
+	</delete>
+	
+	<select id="getShopUserListByShopId" parameterType="java.lang.Long" resultMap="ShopUserVOMap">
+		SELECT 
+			id, 
+			shop_id, 
+			user_id, 
+			user_role_id, 
+			status
+		FROM sys_shop_user WHERE shop_id = #{shopId}
+	</select>
+	
+	<select id="getShopUserPageListByShopId" resultMap="ShopUserPageVOResultMap" parameterType="cn.qumiandan.common.request.CommonParams">
+	SELECT 
+		shopInfo.id,
+	    shopInfo.shopId,
+	    shopInfo.userId,
+	    shopInfo.userRoleId,
+	    shopInfo.remarkName,
+	    role.id AS roleId,
+		role.name AS roleName,
+		usInfo.nick_name AS nickName,
+	    shopInfo.`status` AS `status`,
+	    sur.user_name AS userName
+	FROM (SELECT 
+				shop.id AS id,
+				shop.shop_id AS shopId, 
+				shop.user_id AS userId, 
+				shop.user_role_id AS userRoleId, 
+				shop.remark_name AS remarkName, 
+				shop.status AS `status` 
+		  FROM sys_shop_user shop WHERE shop.shop_id = #{params.shopId}
+	) shopInfo 
+	LEFT JOIN sys_user sur ON sur.id = shopInfo.userId 
+	LEFT JOIN sys_user_info usInfo ON shopInfo.userId = usInfo.user_id
+	LEFT JOIN sys_user_role userRole ON shopInfo.userRoleId = userRole.id
+	LEFT JOIN sys_role role ON role.id = userRole.sys_role_id
+	</select>
+	<select id="getShopUserRoleByShopId" resultMap="ShopUserRoleVO" parameterType="java.lang.Long">
+		SELECT
+		su.id,
+		su.remark_name,
+		u.id as user_id,
+		u.user_name as user_name,
+		u.name as name,
+		r.id as role_id,
+		r.name as role_name
+ 		from sys_shop_user su 
+		LEFT JOIN sys_user u on su.user_id = u.id
+		LEFT JOIN sys_user_role ur on su.user_role_id = ur.id
+ 		LEFT JOIN sys_role r on ur.sys_role_id = r.id
+		where
+		u.status in (1,2)
+		and ur.status = 1
+		and  su.shop_id = #{shopId}
+	
+	</select>
+</mapper>

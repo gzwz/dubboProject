@@ -1,0 +1,66 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring:
+  thymeleaf.cache: false
+  main.banner-mode: log
+  
+#dubbo配置
+  dubbo:
+    server: true
+    consumer:
+      check: false
+    provider: 
+      filter: qmdException,-exception
+      delay: -1
+      timeout: 150000
+      retries: 0  # 服务调用重试次数，服务发布者不给重试，让服务调用者自己重试   
+    application:  #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
+      name: qmd-shop-service
+      id: qmd-shop-service
+      owner: qmd-shop-service
+    protocol:     #协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。
+      port: 20880
+      name: dubbo
+    registry:     #注册中心配置，用于配置连接注册中心相关信息。
+      address: zookeeper://192.168.101.90:2181 # zookeeper注册中心的地址
+  
+  ## 数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: tomcat
+      password: tomcat123
+      url: jdbc:mysql://192.168.101.80:3306/shop_center?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      max-wait: 60000
+      validation-query: select 'x'
+    
+
+## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
+mybatis:
+    type-aliases-package: cn.qumiandan.*.mapper  # 注意：对应实体类的路径
+    mapper-locations: classpath:cn/qumiandan/*/mapper/*.xml   #注意：一定要对应mapper映射xml文件的所在路径
+    #type-handlers-package: com.example.typehandler
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+        default-statement-timeout: 30
+        
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto  
+  
+# Logger Config
+logging:
+  config: classpath:logback-dev.xml
+
+#pagehelper
+#pagehelper:
+#    helperDialect: mysql
+#    reasonable: true
+#    supportMethodsArguments: true
+#    params: count=countSql
+#    returnPageInfo: check

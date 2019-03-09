@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.agentdata.mapper.AgentDataMapper" >
+	<select id="getShopIdsByAgentUserId" resultType="java.lang.Long">
+		select id from qmd_shop where 1=1
+		<if test="agentType == 1 ">
+			and saleman_id = #{userId}
+		</if>
+		<if test="agentType == 2 ">
+			and county_code = (select country_code from sys_saleman where user_id = #{userId} and status = 1)
+		</if>
+		<if test="agentType == 3 ">
+			and city_code = (select city_code from sys_saleman where user_id = #{userId} and status = 1)
+		</if>
+		<if test="agentType == 4 ">
+		and pro_code = (select pro_code from sys_saleman where user_id = #{userId} and status = 1)
+		</if>
+		and status = 1
+	</select>
+	<select id="getAgentTypeByUserId" resultType="java.lang.Byte">
+		select type from sys_saleman where user_id = #{userId} and status = 1
+	</select>
+	
+	<select id="getAgentIndexByShopIds" resultType="cn.qumiandan.agentdata.vo.AgentIndexVO">
+		select 
+		(
+		SELECT sum(amount_total)+ sum(game_amount) from qmd_order  where  order_status in (3,4,5,6,7,8)
+	 	<if test="agentIndexParamsVO.shopIds != null and agentIndexParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="agentIndexParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{agentIndexParamsVO.startTime}
+	  and create_date &lt;= #{agentIndexParamsVO.endTime}	
+	  ) as tradeVolume,
+	  
+	  (
+	  SELECT sum(amount) from qmd_trade_detail 
+	where  type in (8,13) 
+	<if test="agentIndexParamsVO.shopIds != null and agentIndexParamsVO.shopIds.size()>0">
+		 and account_in_id in 
+		 (select id from qmd_pay_account where shop_id in
+		 <foreach collection="agentIndexParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+   		 )
+	 </if>
+	 and create_date &gt;  #{agentIndexParamsVO.startTime}
+	  and create_date &lt;= #{agentIndexParamsVO.endTime}
+	  )as serviceCharge,
+	  
+	  (
+	  select COUNT(*) from qmd_order where 1=1
+	and (amount_total &gt; 0 or game_amount &gt; 0)
+	and order_status in (3,4,5,6,7,8)
+	 <if test="agentIndexParamsVO.shopIds != null and agentIndexParamsVO.shopIds.size()>0">
+		 and shop_id in 
+		 <foreach collection="agentIndexParamsVO.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+	 </if>
+	 and create_date &gt;  #{agentIndexParamsVO.startTime}
+	  and create_date &lt;= #{agentIndexParamsVO.endTime}	 
+	 )	 
+	  as orderNum
+	from dual
+	  
+	</select>
+	
+	<select id="getShareProfit" resultType="java.math.BigDecimal">
+		SELECT sum(amount) from qmd_trade_detail where  1=1
+		<if test="agentIndexParamsVO.tradeTypeList != null and agentIndexParamsVO.tradeTypeList.size()>0">
+		 and type in 
+		 <foreach collection="agentIndexParamsVO.tradeTypeList" item="item" open="(" close=")" separator=",">
+   			 #{item}
+   		 </foreach>
+	 </if>
+		and account_in_id = 
+		(select id from qmd_pay_account where user_id = #{agentIndexParamsVO.userId})
+		and create_date &gt;  #{agentIndexParamsVO.startTime}
+	  and create_date &lt;= #{agentIndexParamsVO.endTime}	 
+	</select>
+	
+	<select id="getUserIdList" resultType="java.lang.Long">
+		select user_id from sys_saleman where 1=1
+		<if test="agentType ==1 ">
+			and type &lt; 1 and country_code = (select country_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==2 ">
+			and type &lt; 2 and country_code = (select country_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==3 ">
+			and type &lt; 3 and city_code = (select city_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==4 ">
+			and type &lt; 4 and pro_code = (select pro_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		and status = 1
+	</select>
+
+	<select id="getTicketNum" resultType="java.lang.Integer">
+		select count(*) from qmd_qualification_ticket where user_id in 
+		<foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+   			 #{userId}
+   		 </foreach>
+		and status = 1
+	</select>
+	<select id="getSalemanNum" resultType="java.lang.Integer">
+		select count(*) from sys_saleman where 1=1
+		<if test="agentType ==2 ">
+			and type = 1 and country_code = (select country_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==3 ">
+			and type= 1 and city_code = (select city_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==4 ">
+			and type = 1 and pro_code = (select pro_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		and status = 1
+	</select>
+		<select id="getAgentNum" resultType="java.lang.Integer">
+		select count(*) from sys_saleman where 1=1
+		<if test="agentType ==2 ">
+			and type &lt;1 and type &gt;1  and country_code = (select country_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==3 ">
+			and type= 2 and city_code = (select city_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		<if test="agentType ==4 ">
+			and type in(2,3) and pro_code = (select pro_code from sys_saleman where user_id =#{userId} and status = 1)
+		</if>
+		and status = 1
+	</select>
+</mapper>

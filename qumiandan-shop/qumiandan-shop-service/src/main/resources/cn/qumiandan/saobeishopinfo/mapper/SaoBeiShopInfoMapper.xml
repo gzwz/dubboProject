@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.saobeishopinfo.mapper.SaoBeiShopInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.saobeishopinfo.entity.SaoBeiShopInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="merchant_name" property="merchantName" jdbcType="VARCHAR" />
+    <result column="merchant_alias" property="merchantAlias" jdbcType="VARCHAR" />
+    <result column="merchant_company" property="merchantCompany" jdbcType="VARCHAR" />
+    <result column="merchant_province" property="merchantProvince" jdbcType="VARCHAR" />
+    <result column="merchant_province_code" property="merchantProvinceCode" jdbcType="VARCHAR" />
+    <result column="merchant_city" property="merchantCity" jdbcType="VARCHAR" />
+    <result column="merchant_city_code" property="merchantCityCode" jdbcType="VARCHAR" />
+    <result column="merchant_county" property="merchantCounty" jdbcType="VARCHAR" />
+    <result column="merchant_county_code" property="merchantCountyCode" jdbcType="VARCHAR" />
+    <result column="merchant_address" property="merchantAddress" jdbcType="VARCHAR" />
+    <result column="merchant_person" property="merchantPerson" jdbcType="VARCHAR" />
+    <result column="merchant_phone" property="merchantPhone" jdbcType="VARCHAR" />
+    <result column="merchant_email" property="merchantEmail" jdbcType="VARCHAR" />
+    <result column="business_name" property="businessName" jdbcType="VARCHAR" />
+    <result column="business_code" property="businessCode" jdbcType="VARCHAR" />
+    <result column="merchant_business_type" property="merchantBusinessType" jdbcType="VARCHAR" />
+    <result column="account_type" property="accountType" jdbcType="VARCHAR" />
+    <result column="settlement_type" property="settlementType" jdbcType="VARCHAR" />
+    <result column="license_type" property="licenseType" jdbcType="TINYINT" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+    <result column="settle_type" property="settleType" jdbcType="VARCHAR" />
+    <result column="settle_amount" property="settleAmount" jdbcType="INTEGER" />
+    <result column="rate_code" property="rateCode" jdbcType="VARCHAR" />
+    <result column="license_no" property="licenseNo" jdbcType="VARCHAR" />
+    <result column="merchant_id_no" property="merchantIdNo" jdbcType="VARCHAR" />
+    <result column="img_license" property="imgLicense" jdbcType="VARCHAR" />
+    <result column="img_bankcard_a" property="imgBankcardA" jdbcType="VARCHAR" />
+    <result column="img_logo" property="imgLogo" jdbcType="VARCHAR" />
+    <result column="img_indoor" property="imgIndoor" jdbcType="VARCHAR" />
+    <result column="img_idcard_a" property="imgIdcardA" jdbcType="VARCHAR" />
+    <result column="img_idcard_b" property="imgIdcardB" jdbcType="VARCHAR" />
+    <result column="img_private_idcard_a" property="imgPrivateIdcardA" jdbcType="VARCHAR" />
+    <result column="img_private_idcard_b" property="imgPrivateIdcardB" jdbcType="VARCHAR" />
+    <result column="img_idcard_holding" property="imgIdcardHolding" jdbcType="VARCHAR" />
+    <result column="img_unincorporated" property="imgUnincorporated" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, shop_id, merchant_name, merchant_alias, merchant_company, merchant_province, 
+      merchant_province_code, merchant_city, merchant_city_code, merchant_county, merchant_county_code, 
+      merchant_address, merchant_person, merchant_phone, merchant_email, business_name, 
+      business_code, merchant_business_type, account_type, settlement_type, license_type, 
+      account_name, account_no, bank_name, bank_no, settle_type, settle_amount, rate_code, 
+      license_no, merchant_id_no, img_license, img_bankcard_a, img_logo, img_indoor, img_private_idcard_a, 
+      img_private_idcard_b,img_idcard_a,  img_idcard_b, img_idcard_holding,img_unincorporated, type, create_date, update_date, create_id,
+      update_id,
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,shop_id,merchant_name,merchant_alias,merchant_company,merchant_province,merchant_province_code,merchant_city,merchant_city_code,merchant_county,merchant_county_code,merchant_address,merchant_person,merchant_phone,merchant_email,business_name,business_code,merchant_business_type,account_type,settlement_type,license_type,account_name,account_no,bank_name,bank_no,settle_type,settle_amount,rate_code,license_no,merchant_id_no,img_license,img_bankcard_a,img_logo,img_indoor,img_private_idcard_a,img_private_idcard_b,img_idcard_a,  img_idcard_b,img_idcard_holding,img_unincorporated,type,create_date, update_date, create_id,
+      update_id
+    from sb_shop_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByShopId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,shop_id,merchant_name,merchant_alias,merchant_company,merchant_province,merchant_province_code,merchant_city,merchant_city_code,merchant_county,merchant_county_code,merchant_address,merchant_person,merchant_phone,merchant_email,business_name,business_code,merchant_business_type,account_type,settlement_type,license_type,account_name,account_no,bank_name,bank_no,settle_type,settle_amount,rate_code,license_no,merchant_id_no,img_license,img_bankcard_a,img_logo,img_indoor,img_idcard_a,  img_idcard_b,img_private_idcard_a,img_private_idcard_b,img_idcard_holding,img_unincorporated,type,create_date, update_date, create_id,
+      update_id
+    from sb_shop_info
+    where shop_id = #{shop_Id,jdbcType=BIGINT} order by create_date desc limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sb_shop_info
+    where shop_id = #{shopId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="cn.qumiandan.saobeishopinfo.entity.SaoBeiShopInfo" >
+    insert into sb_shop_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="merchantName != null" >
+        merchant_name,
+      </if>
+      <if test="merchantAlias != null" >
+        merchant_alias,
+      </if>
+      <if test="merchantCompany != null" >
+        merchant_company,
+      </if>
+      <if test="merchantProvince != null" >
+        merchant_province,
+      </if>
+      <if test="merchantProvinceCode != null" >
+        merchant_province_code,
+      </if>
+      <if test="merchantCity != null" >
+        merchant_city,
+      </if>
+      <if test="merchantCityCode != null" >
+        merchant_city_code,
+      </if>
+      <if test="merchantCounty != null" >
+        merchant_county,
+      </if>
+      <if test="merchantCountyCode != null" >
+        merchant_county_code,
+      </if>
+      <if test="merchantAddress != null" >
+        merchant_address,
+      </if>
+      <if test="merchantPerson != null" >
+        merchant_person,
+      </if>
+      <if test="merchantPhone != null" >
+        merchant_phone,
+      </if>
+      <if test="merchantEmail != null" >
+        merchant_email,
+      </if>
+      <if test="businessName != null" >
+        business_name,
+      </if>
+      <if test="businessCode != null" >
+        business_code,
+      </if>
+      <if test="merchantBusinessType != null" >
+        merchant_business_type,
+      </if>
+      <if test="accountType != null" >
+        account_type,
+      </if>
+      <if test="settlementType != null" >
+        settlement_type,
+      </if>
+      <if test="licenseType != null" >
+        license_type,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="accountNo != null" >
+        account_no,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="bankNo != null" >
+        bank_no,
+      </if>
+      <if test="settleType != null" >
+        settle_type,
+      </if>
+      <if test="settleAmount != null" >
+        settle_amount,
+      </if>
+      <if test="rateCode != null" >
+        rate_code,
+      </if>
+      <if test="licenseNo != null" >
+        license_no,
+      </if>
+      <if test="merchantIdNo != null" >
+        merchant_id_no,
+      </if>
+      <if test="imgLicense != null" >
+        img_license,
+      </if>
+      <if test="imgBankcardA != null" >
+        img_bankcard_a,
+      </if>
+      <if test="imgLogo != null" >
+        img_logo,
+      </if>
+      <if test="imgIndoor != null" >
+        img_indoor,
+      </if>
+      <if test="imgIdcardA != null" >
+        img_idcard_a,
+      </if>
+      <if test="imgIdcardB != null" >
+        img_idcard_b,
+      </if>
+      <if test="imgPrivateIdcardA != null" >
+        img_private_idcard_a,
+      </if>
+      <if test="imgPrivateIdcardB != null" >
+        img_private_idcard_b,
+      </if>
+      
+      <if test="imgIdcardHolding != null" >
+        img_idcard_holding,
+      </if>
+      <if test="imgUnincorporated != null" >
+        img_unincorporated,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAlias != null" >
+        #{merchantAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCompany != null" >
+        #{merchantCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvince != null" >
+        #{merchantProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvinceCode != null" >
+        #{merchantProvinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCity != null" >
+        #{merchantCity,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCityCode != null" >
+        #{merchantCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCounty != null" >
+        #{merchantCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCountyCode != null" >
+        #{merchantCountyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAddress != null" >
+        #{merchantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantPerson != null" >
+        #{merchantPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantPhone != null" >
+        #{merchantPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantEmail != null" >
+        #{merchantEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null" >
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantBusinessType != null" >
+        #{merchantBusinessType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementType != null" >
+        #{settlementType,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseType != null" >
+        #{licenseType,jdbcType=TINYINT},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="settleType != null" >
+        #{settleType,jdbcType=VARCHAR},
+      </if>
+      <if test="settleAmount != null" >
+        #{settleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="rateCode != null" >
+        #{rateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null" >
+        #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantIdNo != null" >
+        #{merchantIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="imgLicense != null" >
+        #{imgLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="imgBankcardA != null" >
+        #{imgBankcardA,jdbcType=VARCHAR},
+      </if>
+      <if test="imgLogo != null" >
+        #{imgLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIndoor != null" >
+        #{imgIndoor,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPrivateIdcardA != null" >
+        #{imgPrivateIdcardA,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPrivateIdcardB != null" >
+        #{imgPrivateIdcardB,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIdcardHolding != null" >
+        #{imgIdcardHolding,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUnincorporated != null" >
+        #{imgUnincorporated,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.qumiandan.saobeishopinfo.entity.SaoBeiShopInfo" >
+    update sb_shop_info
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="merchantName != null" >
+        merchant_name = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAlias != null" >
+        merchant_alias = #{merchantAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCompany != null" >
+        merchant_company = #{merchantCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvince != null" >
+        merchant_province = #{merchantProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvinceCode != null" >
+        merchant_province_code = #{merchantProvinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCity != null" >
+        merchant_city = #{merchantCity,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCityCode != null" >
+        merchant_city_code = #{merchantCityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCounty != null" >
+        merchant_county = #{merchantCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCountyCode != null" >
+        merchant_county_code = #{merchantCountyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAddress != null" >
+        merchant_address = #{merchantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantPerson != null" >
+        merchant_person = #{merchantPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantPhone != null" >
+        merchant_phone = #{merchantPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantEmail != null" >
+        merchant_email = #{merchantEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null" >
+        business_name = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        business_code = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantBusinessType != null" >
+        merchant_business_type = #{merchantBusinessType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        account_type = #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementType != null" >
+        settlement_type = #{settlementType,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseType != null" >
+        license_type = #{licenseType,jdbcType=TINYINT},
+      </if>
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankNo != null" >
+        bank_no = #{bankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="settleType != null" >
+        settle_type = #{settleType,jdbcType=VARCHAR},
+      </if>
+      <if test="settleAmount != null" >
+        settle_amount = #{settleAmount,jdbcType=INTEGER},
+      </if>
+      <if test="rateCode != null" >
+        rate_code = #{rateCode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null" >
+        license_no = #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantIdNo != null" >
+        merchant_id_no = #{merchantIdNo,jdbcType=VARCHAR},
+      </if>
+      <if test="imgLicense != null" >
+        img_license = #{imgLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="imgBankcardA != null" >
+        img_bankcard_a = #{imgBankcardA,jdbcType=VARCHAR},
+      </if>
+      <if test="imgLogo != null" >
+        img_logo = #{imgLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIndoor != null" >
+        img_indoor = #{imgIndoor,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIdcardA != null" >
+        img_idcard_a = #{imgIdcardA,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIdcardB != null" >
+        img_idcard_b = #{imgIdcardB,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPrivateIdcardA != null" >
+        img_private_idcard_a = #{imgPrivateIdcardA,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPrivateIdcardB != null" >
+        img_private_idcard_b = #{imgPrivateIdcardB,jdbcType=VARCHAR},
+      </if>
+      <if test="imgIdcardHolding != null" >
+        img_idcard_holding = #{imgIdcardHolding,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUnincorporated != null" >
+        img_unincorporated = #{imgUnincorporated,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

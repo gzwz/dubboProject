@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.product.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.product.entity.Product" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="present_price" property="presentPrice" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="is_qmd" property="isQmd" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ShopProductResultMap" type="cn.qumiandan.product.vo.ShopProductListVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="category_name" property="categoryName" jdbcType="BIGINT" />
+    <result column="custom_category_id" property="customCategoryId" jdbcType="BIGINT" />
+    <result column="custom_category_name" property="customCategoryName" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="present_price" property="presentPrice" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="is_qmd" property="isQmd" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="product_describe" property="productDescribe" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="ProductDetailResultMap" type="cn.qumiandan.product.vo.ProductDetailVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="present_price" property="presentPrice" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="is_qmd" property="isQmd" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="product_describe" property="productDescribe" jdbcType="VARCHAR" />
+    <result column="attribute" property="attribute" jdbcType="LONGVARCHAR" />
+    <result column="meta_keyword" property="metaKeyword" jdbcType="VARCHAR" />
+    <result column="meta_description" property="metaDescription" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="custom_category_id" property="customCategoryId" jdbcType="BIGINT" />
+    <result column="custom_category_name" property="customCategoryName" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ProductBasicInfoMap" type="cn.qumiandan.product.vo.ProductBasicInfoVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="present_price" property="presentPrice" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="is_qmd" property="isQmd" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="custom_category_id" property="customCategoryId" jdbcType="BIGINT" />
+    <result column="custom_category_name" property="customCategoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CustomCategoryMap" type="cn.qumiandan.product.vo.CustomCategoryVO" >
+    <result column="custom_category_id" property="customCategoryId" jdbcType="BIGINT" />
+    <result column="custom_category_name" property="customCategoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="cn.qumiandan.product.vo.ProductAndShopVO" id="ProductAndShopVO">
+    <result column="shop_id" property="shopId"/>
+    <result column="shop_name" property="shopNme"/>
+    <result column="product_id" property="productId"/>
+    <result column="product_name" property="productName"/>
+    <result column="type_id" property="typeId"/>
+    <result column="category_name" property="categoryName"/>	
+	<result column="brand_name" property="brandName"/>	
+	<result column="category_id" property="categoryId"/>	
+	<result column="brand_id" property="brandId"/>	
+	<result column="main_image" property="mainImage"/>	
+	<result column="original_price" property="originalPrice"/>	
+	<result column="present_price" property="presentPrice"/>	
+	<result column="cost" property="cost"/>
+	<result column="is_qmd" property="isQmd"/>
+	<result column="create_id" property="createId"/>
+	<result column="create_date" property="createDate"/>
+	<result column="update_id" property="updateId"/>
+	<result column="update_date" property="updateDate"/>
+	<result column="barcode" property="barcode"/>
+	<result column="product_describe" property="productDescribe"/>
+	<result column="metaKeyword" property="meta_keyword"/>
+	<result column="metaDescription" property="meta_description"/>
+	<result column="attribute" property="attribute"/>
+	<result column="status" property="status"/>    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,shop_id, name, type_id, category_id, brand_id, main_image, original_price, present_price,
+    cost, is_qmd, status, create_id, update_id, create_date, update_date
+  </sql>
+  <update id="setIsShelf"  >
+	update qmd_product set status=#{status} where id=#{productId}
+  </update>
+
+  <select id="getProductPageListByShopId" parameterType="cn.qumiandan.product.vo.ShopProductQueryVO" resultMap="ShopProductResultMap">
+     select p.id,p.shop_id,p.name,p.type_id,pc.id category_id,pc.name category_name,scc.id custom_category_id,scc.name custom_category_name,
+      p.brand_id,p.main_image,p.original_price,p.present_price,p.cost,p.is_qmd,p.status,p.create_id,pe.barcode,pe.product_describe,pe.attribute
+    from qmd_product p
+    left join qmd_product_extend pe on p.id = pe.product_id
+    left join qmd_product_category pc on p.category_id = pc.id
+    left join qmd_product_and_custom_category pcc on p.id = pcc.product_id
+    left join qmd_shop_custom_category scc on pcc.category_id = scc.id
+    where p.shop_id = #{shopId,jdbcType=BIGINT}
+    <if test="name != null" >
+      and p.name like CONCAT(#{name,jdbcType=VARCHAR},"%")
+    </if>
+    <if test="typeId != null" >
+      and p.type_id = #{typeId,jdbcType=BIGINT}
+    </if>
+    <if test="brandId != null" >
+      and p.brand_id = #{brandId,jdbcType=BIGINT}
+    </if>
+    <if test="isQmd != null" >
+      and p.is_qmd = #{isQmd,jdbcType=TINYINT}
+    </if>
+    <if test="status != null" >
+      and p.status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="categoryId != null" >
+      and p.category_id = #{categoryId,jdbcType=BIGINT}
+    </if>
+    <if test="customCategoryId != null" >
+      and scc.id = #{customCategoryId,jdbcType=BIGINT}
+    </if>
+    and p.status !=6
+    order by p.create_date desc
+  </select>
+
+  <select id="getProductDetailById" parameterType="java.lang.Long" resultMap="ProductDetailResultMap">
+    select
+      p.id, p.name, p.type_id, p.category_id, p.brand_id, p.main_image, p.original_price, p.present_price,
+      cost, p.is_qmd, p.status, p.create_id, p.update_id, p.create_date, p.update_date,
+      pe.barcode, pe.product_describe, pe.attribute,pe.meta_keyword, pe.meta_description,
+      pc.id category_id,pc.name category_name,scc.id custom_category_id,scc.name custom_category_name,
+      p.shop_id
+    from qmd_product p
+    left join qmd_product_extend pe on p.id = pe.product_id
+    left join qmd_product_category pc on p.category_id = pc.id
+    left join qmd_product_and_custom_category pcc on p.id = pcc.product_id
+    left join qmd_shop_custom_category scc on pcc.category_id = scc.id
+    where p.id = #{id}
+  </select>
+
+  <select id="getCustomProductListByShopId" parameterType="java.lang.Long" resultMap="ProductBasicInfoMap">
+    select
+      p.id,p.shop_id ,p.name, p.type_id, p.category_id, p.brand_id, p.main_image, p.original_price, p.present_price,
+      p.cost, p.is_qmd, p.status,scc.id custom_category_id,scc.name custom_category_name
+    from qmd_product p
+    left join qmd_product_and_custom_category pcc on p.id = pcc.product_id
+    left join qmd_shop_custom_category scc on scc.id = pcc.category_id
+    where p.shop_id = #{shopId,jdbcType=BIGINT}
+    and p.status in (1,2,3)
+  </select>
+
+  <select id="getCustomCategoryListByShopId" parameterType="java.lang.Long" resultMap="CustomCategoryMap">
+    select
+      scc.id custom_category_id,scc.name custom_category_name
+    from qmd_product p
+    left join qmd_product_and_custom_category pcc on p.id = pcc.product_id
+    left join qmd_shop_custom_category scc on scc.id = pcc.category_id
+    where p.shop_id = #{shopId,jdbcType=BIGINT}
+    and p.status in (1,2,3)
+  </select>
+  <select id="getProductByProductIdSet"  resultMap="ProductDetailResultMap">
+   select
+      p.id, p.name, p.type_id, p.category_id, p.brand_id, p.main_image, p.original_price, p.present_price,
+      cost, p.is_qmd, p.status, p.create_id, p.update_id, p.create_date, p.update_date,
+      pe.barcode, pe.product_describe, pe.attribute,pe.meta_keyword, pe.meta_description,
+      p.shop_id
+    from qmd_product p
+    left join qmd_product_extend pe on p.id = pe.product_id
+    where p.id in 
+    <foreach collection="idSet" item="id" open="(" close=")" separator=",">
+    #{id}
+    </foreach>
+  </select>
+
+  <select id="queryProduct" resultMap="ProductAndShopVO">
+  select
+   	s.id as shop_id,
+   	s.name as shop_name,
+   	p.id as product_id,
+  	p.name as product_name,
+    p.type_id ,
+    p.category_id,
+    p.brand_id,
+    pc.name as category_name,
+    pb.name as brand_name,
+    p.main_image,
+	p.original_price,
+	p.present_price,
+	p.cost,
+	p.is_qmd,
+	p.status, 
+	p.create_id, 
+	p.update_id, 
+	p.create_date, 
+	p.update_date,
+	pe.barcode,
+	pe.product_describe,
+	pe.meta_keyword,
+	pe.meta_description,
+	pe.attribute
+	from qmd_product p
+	left join qmd_shop s on p.shop_id = s.id
+	left join qmd_product_extend pe on p.id = pe.product_id
+	left join qmd_product_category pc on p.category_id = pc.id
+	left join qmd_product_brand pb on p.brand_id = pb.id
+	where 1=1
+	<if test="productQueryVO.shopId != null">
+		and s.id = #{productQueryVO.shopId}
+	</if>
+	<if test="productQueryVO.typeId != null">
+		and p.type_id = #{productQueryVO.typeId}
+	</if>
+	<if test="productQueryVO.brandId != null">
+		and p.brand_id = #{productQueryVO.brandId}
+	</if>
+	<if test="productQueryVO.categoryId != null">
+		and p.category_id = #{productQueryVO.categoryId}
+	</if>
+	<if test="productQueryVO.isQmd != null">
+		and p.is_qmd = #{productQueryVO.isQmd}
+	</if>
+	<if test="productQueryVO.statusList != null and productQueryVO.statusList.size()>0">
+	 and p.status in
+		 <foreach collection="productQueryVO.statusList" item="item" open="(" close=")" separator=",">
+    		#{item}
+    	 </foreach>
+	</if>
+	<if test="productQueryVO.statusList == null">
+		and p.status in (1,2,3,4,5)
+	</if>
+	<if test="productQueryVO.inputInfo != null and productQueryVO.inputInfo != ''">
+		and  (p.name like CONCAT(#{productQueryVO.inputInfo},"%")
+		or s.name like CONCAT(#{productQueryVO.inputInfo},"%"))
+	</if>
+	ORDER BY p.create_date desc
+  </select>
+</mapper>

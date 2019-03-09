@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.apply.mapper.ApplyMapper" >
+  <resultMap id="ApplyVO" type="cn.qumiandan.apply.vo.ApplyVO" >
+	<id column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="mobile" property="mobile"/>
+	<result column="shop" property="shop"/>
+	<result column="pro_code" property="proCode"/>
+	<result column="pro_name" property="proName"/>
+	<result column="city_code" property="cityCode"/>
+	<result column="city_name" property="cityName"/>
+	<result column="country_code" property="countryCode"/>
+	<result column="country_name" property="countryName"/>
+	<result column="industry_id" property="industryId"/>
+	<result column="type" property="type"/>
+	<result column="industry_name" property="industryName"/>
+    <result column="create_date" property="createDate"  />
+    <result column="update_date" property="updateDate" />
+    <result column="create_id" property="createId" />
+    <result column="update_id" property="updateId" />
+    <result column="status" property="status"  />
+ </resultMap>
+ <sql id="apply_column">
+ os.id,
+ 	os.name,
+ 	os.mobile,
+ 	os.shop,
+ 	os.pro_code,
+ 	os.city_code,
+ 	os.country_code,
+ 	os.industry_id,
+ 	os.type,
+ 	os.status,
+ 	os.create_id,
+ 	os.update_id,
+ 	os.create_date,
+ 	os.update_date 
+ </sql>
+ <select id="queryApply" resultMap="ApplyVO">
+ 	SELECT 
+ 	<include refid="apply_column"/>,
+ 	addr.province_name as pro_name,
+ 	addr.city_name as city_name,
+ 	addr.district_name as country_name,
+ 	i.name as industry_name
+ 	FROM qmd_apply os 
+ 	left join address addr 
+ 	<if test="vo.type == 1 || vo.type ==2 || vo.type == 5">
+ 		on os.country_code = addr.district_code
+ 	</if>
+ 	<if test="vo.type == 3">
+ 		on os.city_code = addr.city_code
+ 	</if>
+ 	<if test="vo.type == 4 ">
+ 		on os.pro_code = addr.province_code
+ 	</if>
+	left join qmd_industry_info i on os.industry_id = i.id
+	where 1=1
+	<if test="vo.type == 1 || vo.type ==2 || vo.type == 5">
+ 		and addr.level = 3
+ 	</if>
+ 	<if test="vo.type == 3">
+ 		and addr.level = 2
+ 	</if>
+ 	<if test="vo.type == 4 ">
+ 		and addr.level = 1
+ 	</if>
+ 	<if test="vo.id != null">
+ 		and os.id = #{vo.id}
+ 	</if>
+ 	<if test="vo.inputInfo != null and vo.inputInfo != ''">
+ 		and (os.name like concat(  #{vo.inputInfo},'%')
+ 		or os.mobile like concat(  #{vo.inputInfo},'%')
+ 		or os.shop like concat(  #{vo.inputInfo},'%')
+ 		)
+ 	</if>
+ 	<if test="vo.proCode != null and vo.proCode != ''">
+ 		and os.pro_code = #{vo.proCode}
+ 	</if>
+ 	<if test="vo.cityCode != null and vo.cityCode != ''">
+ 		and os.city_code = #{vo.cityCode}
+ 	</if>
+ 	<if test="vo.countryCode != null and vo.countryCode != ''">
+ 		and os.country_code = #{vo.countryCode}
+ 	</if>
+ 	<if test="vo.status != null ">
+ 		and os.status = #{vo.status}
+ 	</if>
+ 	<if test="vo.startCreateDate != null">
+ 		and os.create_date &gt;= #{vo.startCreateDate}
+ 	</if>
+ 	<if test="vo.endCreateDate != null">
+ 		and os.create_date &lt;= #{vo.endCreateDate}
+ 	</if>
+ 	<if test="vo.type != null" >
+ 		and os.type = #{vo.type}
+ 	</if>
+	order by os.create_date desc
+ </select>
+ </mapper>
+

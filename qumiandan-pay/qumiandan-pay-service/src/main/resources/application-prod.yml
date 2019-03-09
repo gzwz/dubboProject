@@ -1,0 +1,97 @@
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring:
+  thymeleaf.cache: false
+  main.show-banner: false
+
+#dubbo配置
+  dubbo:
+    server: true
+    consumer:
+      check: false
+    provider: 
+      filter: qmdException,-exception
+      delay: -1
+      timeout: 150000
+      retries: 0  # 服务调用重试次数，服务发布者不给重试，让服务调用者自己重试   
+    application:  #应用配置，用于配置当前应用信息，不管该应用是提供者还是消费者。
+      name: qmd-pay-service
+      id: qmd-pay-service
+      owner: qmd-pay-service
+    protocol:     #协议配置，用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受。
+      port: 20880
+      name: dubbo
+    registry:     #注册中心配置，用于配置连接注册中心相关信息。
+      address: zookeeper://172.16.119.147:2181 # zookeeper注册中心的地址
+  
+  ## 数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: qmdroot
+      password: hukaibin1234567!
+      url: jdbc:mysql://rm-bp194zxwtlylh67cd.mysql.rds.aliyuncs.com/pay_center?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      initial-size: 1
+      max-active: 20
+      min-idle: 1
+      max-wait: 60000
+      validation-query: select 'x'
+    
+
+## 该配置节点为独立的节点，有很多同学容易将这个配置放在spring的节点下，导致配置无法被识别
+mybatis:
+    #type-aliases-package: cn.qumiandan.*.dao  # 注意：对应实体类的路径
+    #mapper-locations: classpath:cn/qumiandan/*/mapper/*.xml   #注意：一定要对应mapper映射xml文件的所在路径
+    #type-handlers-package: com.example.typehandler
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+        default-statement-timeout: 30
+        
+        
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto  
+  
+# Logger Config
+logging:
+  config: classpath:logback-dev.xml
+
+
+#saobei:
+#  instNo: 52100021
+#  key: 2d7c2a70e2cd4e33902f6215cd368400
+#  #商户接口
+#  createMerchantUrl: http://test.lcsw.cn:8045/lcsw/merchant/200/add
+#  updateMerchantUrl : http://test.lcsw.cn:8045/lcsw/merchant/200/update
+#  createTerminalUrl: http://test.lcsw.cn:8045/lcsw/terminal/100/add
+#  checkMerchantNamelUrl: http://test.lcsw.cn:8045/lcsw/merchant/200/checkname
+#  queryTerminalUrl: http://test.lcsw.cn:8045/lcsw/terminal/100/query
+#  #支付接口
+#  #authopenidUrl: http://test.lcsw.cn:8045/lcsw/wx/jsapi/authopenid
+#  #jsPayUrl: http://test.lcsw.cn:8045/lcsw/pay/100/jspay
+#  #jsRefundUrl: http://test.lcsw.cn:8045/lcsw/pay/100/refund
+#  #http://pay.lcsw.cn/lcsw
+#  authopenidUrl: http://pay.lcsw.cn/lcsw/wx/jsapi/authopenid
+#  jsPayUrl: http://pay.lcsw.cn/lcsw/pay/100/jspay
+#  jsRefundUrl: http://pay.lcsw.cn/lcsw/pay/100/refund
+#  # 配置创建商户的回调地址
+#  createMerchantCallbackUrl: http://testwechat.zskwl.cn/saoBeiCallbackController/createMerchatCallback
+#  # 平台公众号支付回调地址
+#  jsPayCallbackUrl: http://testwechat.zskwl.cn/saoBeiCallbackController/jsPayCallback
+#  jsPayGameCallbackUrl: http://testwechat.zskwl.cn/saoBeiCallbackController/jsPayGameCallback
+
+#lianlian:
+#  publicKeyOnline: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCSS/DiwdCf/aZsxxcacDnooGph3d2JOj5GXWi+q3gznZauZjkNP8SKl3J2liP0O6rU/Y/29+IUe+GTMhMOFJuZm1htAtKiu5ekW0GlBMWxf4FPkYlQkPE0FtaoMP3gYfh+OwI+fIRrpW3ySn3mScnc6Z700nU/VYrRkfcSCbSnRwIDAQAB
+#  businessPrivateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKZGXpmfgya2gGh6UdFPqPqi6e2z/HX4aIlMH394FOXTVwErnSGY5S0YFw5WskJrQLU2RHwFiA5P9Yt8VPxwgLDpdIm1/a7NlyjvWNvBd8V7wyITH8teJA1Ae5yWmRRrWFcVRSjpBq3xfwv76lVl+Nq/jR08p/ugVYJgtYEIM53JAgMBAAECgYA17SarPj+j45a7y8gTUXmlaAbkb/ZWMG1+8fBZQBHPA/74wzNf/R1+xYxcuyNvRSekXehSLN0WfzpMtdM+WCJ0ODqHRFsbAxmi784hzBZHOAxoJV49P8PVy6HIPthXxiSNUcacSt/HKJrUI6zACpymJLiVxMb9GqQAyx3BJl7rjQJBANG+RDszZYl3J1z1AtD0WggycrH2YOB7v5o3qKOz2AQ6CHWApSN6cuvqFwaUtHK9gMpDhvWR6zbYVRP+f4AxoQ8CQQDK8fTkpHNrHc011E8jjk3Uq5PWTJ0jAvcqk4rqZa4eV9953YSJYtJ2Fk2JnL3Ba7AU+qStnyD6MvSIpwIPSaOnAkEAptbFaZ4Jn55jdmMC2Xn1f925NGx6RTbKg37Qq18sbrhG8Ejjk2QctCIiLL7vBvJM1xd97CslQhw1GNFxVGSl6wJAQzwFtfoFgudMpRjBXzY18s8lG0omhQLmf+SBkUY+eS8Diowo7Jsgvp6E8aJL+1iB7XFcPWkKs9lNyjgKJqZu4QJAM22ULfWKrNIqaBJaYDmQSupUkHR/WL5rQJtAuVo8Zg3+rBrtMTXfIHJpR0MNpMgRSsPK6pZ3n4i+VvC5WxKUzA==
+#  oidPartner: 201811280002298007
+#  apiVersion: 1.0
+#  signType: RSA
+#pagehelper
+#pagehelper:
+#    helperDialect: mysql
+#    reasonable: true
+#    supportMethodsArguments: true
+#    params: count=countSql
+#    returnPageInfo: check

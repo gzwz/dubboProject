@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.payaccount.mapper.PayAccountMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.payaccount.entity.PayAccount" >
+    <id column="id" property="id"  />
+    <result column="account" property="account"/>
+    <result column="user_id" property="userId"/>
+    <result column="shop_id" property="shopId"/>
+    <result column="name" property="name"/>
+    <result column="balance" property="balance" />
+    <result column="account_balance" property="accountBalance" />
+    <result column="sett_balance" property="settBalance"/>
+    <result column="unbalance" property="unbalance"/>
+    <result column="security_money" property="securityMoney"/>
+    <result column="withdraw_status" property="withdrawStatus" />
+    <result column="type" property="type"/>
+    <result column="status" property="status" />
+    <result column="create_id" property="createId"/>
+    <result column="update_id" property="updateId" />
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate"  />
+  </resultMap>
+  <resultMap id="PayAccountVOResultMap" type="cn.qumiandan.payaccount.vo.PayAccountVO" >
+    <id column="id" property="id"  />
+    <result column="account" property="account"/>
+    <result column="user_id" property="userId"/>
+    <result column="shop_id" property="shopId"/>
+    <result column="name" property="name"/>
+    <result column="balance" property="balance" />
+    <result column="account_balance" property="accountBalance" />
+    <result column="sett_balance" property="settBalance"/>
+    <result column="unbalance" property="unbalance"/>
+    <result column="security_money" property="securityMoney"/>
+    <result column="withdraw_status" property="withdrawStatus" />
+    <result column="type" property="type"/>
+    <result column="status" property="status" />
+    <result column="create_id" property="createId"/>
+    <result column="update_id" property="updateId" />
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate"  />
+  </resultMap>
+  <select id="getPayAccountInfoByIdLock" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT
+  		`id`,
+  		account,
+  		user_id,
+  		shop_id,
+  		balance,
+  		account_balance,
+  		sett_balance,
+  		`unbalance`,
+  		security_money,
+  		withdraw_status,
+  		`status`,
+  		create_id,
+  		update_id,
+  		create_date,
+  		update_date
+  	FROM qmd_pay_account WHERE id = #{id} FOR UPDATE
+  </select>
+  <select id="getPayAccountInfoById" parameterType="java.lang.Long" resultMap="PayAccountVOResultMap">
+  	SELECT
+  		`id`,
+  		account,
+  		user_id,
+  		shop_id,
+  		name,
+  		balance,
+  		account_balance,
+  		sett_balance,
+  		`unbalance`,
+  		security_money,
+  		withdraw_status,
+  		type,
+  		`status`,
+  		create_id,
+  		update_id,
+  		create_date,
+  		update_date
+  	FROM qmd_pay_account WHERE id = #{id}
+  </select>
+  <resultMap id="AcountMoneyVO" type="cn.qumiandan.payaccount.vo.AcountMoneyVO" >
+    <id column="id" property="id"/>
+    <result column="sett_balance" property="settBalance" />
+    <result column="account_balance" property="accountBalance" />
+    <result column="bank_card_holder" property="bankCardHolder" />
+  </resultMap>
+  <select id="getAcountMoneyByShopList" resultMap="AcountMoneyVO">
+  select 
+  pa.id,
+  pa.sett_balance,
+  pa.account_balance,
+  bc.bank_card_holder
+  from qmd_pay_account pa
+  left join qmd_bank_card bc on pa.id = bc.account_id
+  where 1=1
+  <if test="shopIdList != null and shopIdList.size()>0">
+  	and pa.shop_id in
+  	<foreach collection="shopIdList" item="id" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+  </if>
+  </select>
+  
+  <update id="updateBatchIncreaseSettBalance" >
+  	UPDATE qmd_pay_account SET sett_balance = account_balance WHERE account_balance > 0
+  </update>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.bankinfo.mapper.BankInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.bankinfo.entity.BankInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="head_bank_no" property="headBankNo" jdbcType="VARCHAR" />
+    <result column="head_bank_name" property="headBankName" jdbcType="VARCHAR" />
+    <result column="sub_bank_no" property="subBankNo" jdbcType="VARCHAR" />
+    <result column="sub_bank_name" property="subBankName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="sub_bank_addr" property="subBankAddr" jdbcType="VARCHAR" />
+    <result column="zip_code" property="zipCode" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="HeadBankInfoVOMap" type="cn.qumiandan.bankinfo.vo.HeadBankInfoVO" >
+    <result column="head_bank_no" property="headBankNo" jdbcType="VARCHAR" />
+    <result column="head_bank_name" property="headBankName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BankInfoVOResultMap" type="cn.qumiandan.bankinfo.vo.BankInfoVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="head_bank_no" property="headBankNo" jdbcType="VARCHAR" />
+    <result column="head_bank_name" property="headBankName" jdbcType="VARCHAR" />
+    <result column="sub_bank_no" property="subBankNo" jdbcType="VARCHAR" />
+    <result column="sub_bank_name" property="subBankName" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="sub_bank_addr" property="subBankAddr" jdbcType="VARCHAR" />
+    <result column="zip_code" property="zipCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, head_bank_no, head_bank_name, sub_bank_no, sub_bank_name, city_code, sub_bank_addr, 
+      zip_code
+  </sql>
+  <select id="getHeadBankInfo" resultMap="HeadBankInfoVOMap" >
+  select
+  head_bank_no, head_bank_name from  sb_bank_info group by head_bank_no, head_bank_name
+  having 1=1 
+  <if test="headBankName!=null and headBankName!= ''">
+  and head_bank_name like concat(#{headBankName} ,'%')
+  </if>
+  </select>
+    <select id="getSubBankInfo" resultMap="BaseResultMap" >
+ 	 select
+	<include refid="Base_Column_List"/>  
+	 from  sb_bank_info
+  	where head_bank_no = #{headBankNo}
+  	<if test="subBankName!=null and subBankName !=''">
+  	and sub_bank_name like concat('%',#{subBankName} ,'%')
+  </if>
+  </select>
+	<select id="getAllSubBankInfo" resultMap="BankInfoVOResultMap">
+			SELECT
+			<include refid="Base_Column_List"/>
+   		FROM sb_bank_info  where 1=1
+   		<if test="subBankName!=null and subBankName !=''">
+  	and sub_bank_name like concat('%',#{subBankName} ,'%')
+  </if>
+	</select>
+</mapper>

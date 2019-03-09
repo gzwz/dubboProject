@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.pay.saobei.mapper.PlatformMerchantMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.pay.saobei.entity.PlatformMerchant" >
+    <id column="id" property="id" />
+    <result column="name" property="name"/>
+    <result column="merchant_no" property="merchantNo"/>
+   	<result column="terminal_no" property="terminalNo"/>
+   	<result column="access_token" property="accessToken"/>
+   	<result column="account" property="account"/>
+   	<result column="password" property="password"/>
+   	<result column="weight" property="weight"/>
+   	<result column="status" property="status"/>
+   	<result column="create_id" property="createId"/>
+   	<result column="create_date" property="createDate"/>
+   	<result column="update_id" property="updateId"/>
+   	<result column="update_date" property="updateDate"/>
+  </resultMap>
+  <resultMap id="MerchantVOResultMap" type="cn.qumiandan.pay.saobei.vo.PlatformMerchantVO" >
+    <id column="id" property="id" />
+    <result column="name" property="name"/>
+    <result column="merchant_no" property="merchantNo"/>
+   	<result column="terminal_no" property="terminalNo"/>
+   	<result column="access_token" property="accessToken"/>
+   	<result column="account" property="account"/>
+   	<result column="password" property="password"/>
+   	<result column="weight" property="weight"/>
+   	<result column="status" property="status"/>
+   	<result column="create_id" property="createId"/>
+   	<result column="create_date" property="createDate"/>
+   	<result column="update_id" property="updateId"/>
+   	<result column="update_date" property="updateDate"/>
+  </resultMap>
+  <select id="randomGetMerchant" resultMap="MerchantVOResultMap">
+  	SELECT
+  		p1.id,
+  		p1.name,
+  		p1.merchant_no,
+  		p1.terminal_no,
+  		p1.access_token,
+  		p1.`account`,
+  		p1.`password`,
+  		p1.weight,
+  		p1.`status`,
+  		p1.create_id,
+  		p1.create_date,
+  		p1.update_id,
+  		p1.update_date
+  	FROM qmd_platform_merchant AS p1
+  	JOIN (SELECT ROUND(RAND() * ((SELECT MAX(id) FROM qmd_platform_merchant WHERE status = 1)-(SELECT MIN(id) FROM qmd_platform_merchant WHERE status = 1))+(SELECT MIN(id) FROM qmd_platform_merchant WHERE status = 1)) AS id) AS p2    
+	WHERE p1.id >= p2.id  AND status = 1  
+	ORDER BY p1.id LIMIT 1
+  </select>
+</mapper>

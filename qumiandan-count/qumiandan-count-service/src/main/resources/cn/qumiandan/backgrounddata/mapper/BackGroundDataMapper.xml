@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.backgrounddata.mapper.BackGroundDataMapper" >
+	<select id="getUserNum" resultType="java.lang.Integer">
+		select count(*) from sys_user where 1=1
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getShopNum" resultType="java.lang.Integer">
+		select count(*) from qmd_shop where 1=1
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getSalemanNum" resultType="java.lang.Integer">
+		select count(*) from sys_saleman where type = 1 and status = 1 
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getAgentNum" resultType="java.lang.Integer">
+		select count(*) from sys_saleman where type in (2,3,4) and status = 1 
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getServiceMoney" resultType="java.math.BigDecimal">
+		select sum(round(amount*0.003)) from qmd_trade_detail where 1=1 and type in (1,2,3,14)
+		and status in (2,4) and  ABS(ROUND(amount*0.003))>1
+		<if test="startTime != null ">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null ">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getActualMoney" resultType="java.math.BigDecimal">
+		select sum(amount) from qmd_trade_detail where 1=1 and type in (2,3,14)
+		and status in (2,4) 
+		<if test="startTime != null">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getPayNum" resultType="java.lang.Integer">
+		select count(*) from qmd_trade_detail where 1=1 and type in (1,2,3)
+		and status = 2
+		<if test="startTime != null">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+	<select id="getProfit" resultType="java.math.BigDecimal">
+		select sum(amount) from qmd_trade_detail where 1=1 and type in (26,28,29,30)
+		<if test="startTime != null">
+			and create_date &gt;= #{startTime}
+		</if>
+		<if test="endTime != null">
+			and create_date &lt; #{endTime}
+		</if>
+	</select>
+</mapper>

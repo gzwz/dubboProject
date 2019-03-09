@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.role.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.role.entity.Role" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="ealias" property="ealias" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="RoleVOResultMap" type="cn.qumiandan.role.vo.RoleVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="ealias" property="ealias" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="PermissionVOResultMap" type="cn.qumiandan.permission.vo.PermissionVO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="p_id" property="pId" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, sort, name, dept_id, ealias, create_id, update_id, create_date, update_date,status
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+
+<sql id="permission_Column_List" >
+    <if test="fields == null" >
+      id, sort, p_id, permission, name, type, status, create_id, update_id, create_date, 
+      update_date
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="getRoleListByUserId" parameterType="java.lang.Long" resultMap="RoleVOResultMap">
+    SELECT r.id, r.sort, r.name, r.dept_id, r.ealias
+    FROM sys_role r
+    LEFT JOIN sys_user_role ur ON ur.sys_role_id = r.id
+    LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+    WHERE r.status=1 and  u.status=1 and u.id = #{userId}
+  </select>
+
+  <select id="getPermissionListByUserId" parameterType="java.lang.Long" resultMap="PermissionVOResultMap">
+    SELECT p.id, p.permission, p.name, p.p_id, p.status
+    FROM sys_permission p
+    LEFT JOIN sys_role_permission rp ON rp.permission_id = p.id
+    LEFT JOIN sys_role r ON r.id = rp.role_id
+    LEFT JOIN sys_user_role ur ON ur.sys_role_id = r.id
+    LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+    WHERE 
+    r.status=1
+    and u.status=1 
+    and u.id = #{userId}
+  </select>
+
+  <select id="getRoleEaliasSetByUserId" parameterType="java.lang.Long" resultType="String">
+    SELECT r.ealias
+    FROM sys_role r
+    LEFT JOIN sys_user_role ur ON ur.sys_role_id = r.id
+    LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+    WHERE r.status=1 and  u.status=1 and  u.id = #{userId}
+  </select>
+
+  <select id="getPermissionSetByUserId" parameterType="java.lang.Long" resultType="String">
+    SELECT p.permission
+    FROM sys_permission p
+    LEFT JOIN sys_role_permission rp ON rp.permission_id = p.id
+    LEFT JOIN sys_role r ON r.id = rp.role_id
+    LEFT JOIN sys_user_role ur ON ur.sys_role_id = r.id
+    LEFT JOIN sys_user u ON u.id = ur.sys_user_id
+    WHERE 
+    r.status=1 
+    and  u.status=1
+    and u.id = #{userId}
+  </select>
+	<insert id="insertSelective" parameterType="cn.qumiandan.role.entity.Role" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="deptId != null" >
+        dept_id,
+      </if>
+      <if test="ealias != null" >
+        ealias,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="ealias != null" >
+        #{ealias,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.qumiandan.role.entity.Role" >
+    update sys_role
+    <set >
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        dept_id = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="ealias != null" >
+        ealias = #{ealias,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getPermissionByRoleId" resultMap="PermissionVOResultMap" parameterType="java.lang.Long">
+  	SELECT 
+	p.id, sort, p.p_id, p.permission, p.name, p.type, p.status, p.create_id, p.update_id, p.create_date, 
+      p.update_date
+ 	from sys_role_permission rp LEFT JOIN sys_permission p on rp.permission_id=p.id
+   	where p.status=1 
+   	and rp.role_id=#{roleId}
+  </select>
+  
+   <select id="getRoleByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT 
+      id, sort, name, dept_id, ealias, create_id, update_id, create_date, update_date,status
+	from sys_role
+   	where status=1 
+   	and name=#{name} limit 1
+  </select>
+	<select id="getPermissionByUserName" resultMap="PermissionVOResultMap" >
+  	SELECT 
+	p.id, sort, p.p_id, p.permission, p.name, p.type, p.status, p.create_id, p.update_id, p.create_date, 
+      p.update_date
+ 	from sys_user u LEFT JOIN sys_user_role ur on u.id=ur.sys_user_id LEFT JOIN sys_role_permission rp 
+ 	on ur.sys_role_id=rp.role_id LEFT JOIN sys_permission p on rp.permission_id = p.id 
+ 	where p.status=1 and u.user_name=#{userName}
+ 	<if test="type != null" >
+ 	 and p.type=#{type}
+ 	</if>
+  	</select>
+  	<select id="getMaxSort" resultType="java.lang.Integer">
+  	select max(sort) from sys_role
+  	</select>
+  	
+  	<select id="getRolesByRoleIds"  resultMap="RoleVOResultMap">
+  		SELECT 
+  			id, 
+  			sort, 
+  			name, 
+  			dept_id, 
+  			ealias,
+  			status,
+  			create_id, 
+  			update_id, 
+  			create_date, 
+  			update_date
+    	FROM sys_role WHERE id IN 
+    	<foreach item="roleId" index="index" collection="roleIds" open="(" separator="," close=")">
+        	#{roleId}
+   		</foreach> 
+  	</select>
+  
+  	<select id="getShopManagerRoleInfo" resultMap="RoleVOResultMap">
+  		SELECT 
+  			id, 
+  			sort, 
+  			name, 
+  			dept_id, 
+  			ealias,
+  			status
+    	FROM sys_role WHERE id = 4
+  	</select>
+  	<select id="getRoleByUserId" resultMap="RoleVOResultMap" parameterType="java.lang.Long">
+  		select 
+  		r.id, 
+  		r.sort, 
+  		r.name, 
+  		r.dept_id, 
+  		r.ealias,
+  		r.status
+  		from sys_role r 
+  		left join  sys_user_role ur 
+  		on r.id = ur.sys_role_id
+  		where 
+  		r.status = 1 
+  		and ur.sys_user_id = #{userId}
+  	</select>
+</mapper>

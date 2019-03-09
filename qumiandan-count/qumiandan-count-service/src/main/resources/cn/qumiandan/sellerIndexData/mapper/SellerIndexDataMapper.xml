@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.sellerIndexData.mapper.SellerIndexDataMapper" >
+ <!--  <resultMap id="BaseResultMap" type="cn.qumiandan.system.entity.SysProperties" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" />
+    <result column="value" property="value"  />
+  </resultMap> -->
+  <!--  <select id="getTradeAmountByShopId" resultType="java.math.BigDecimal">
+   	
+   	select sum(game_amount+amount_total) tradeAmount from qmd_order qt 
+   		where qt.create_date &gt;= #{startTime} and qt.create_date &lt; #{endTime}
+   			 and shop_id=#{shopId} and order_status=4
+   			 
+   </select>
+   
+   <select id="getFutureAmount" resultType="java.math.BigDecimal">
+select   	
+   	sum(cost) 
+FROM
+	qmd_product 
+WHERE
+	id IN (
+	SELECT
+		product_id 
+	FROM
+		qmd_order_detail qod 
+	WHERE
+	qod.order_id IN ( SELECT order_id FROM qmd_order qt where qt.create_date &gt;= #{startTime} and qt.create_date &lt; #{endTime}
+   			 and qt.shop_id =#{shopId} and order_status=4 ) 
+	)
+   </select> -->
+   <!-- <select id="getShopRateByShopId">
+   	select rate from qmd_shop_profit where shop_id=#{shopId}
+   </select> -->
+   <!-- //周查询
+		if(dateStatus==0) {
+			startTime=DateUtil.getWeekStart(time);
+			endTime=DateUtil.getWeekEnd(time);
+		}
+		//当天时间
+		else if(dateStatus==1) {
+			startTime = DateUtil.getDayStart(time);
+			Date nextday = DateUtil.addDay(time, 1);
+			endTime = DateUtil.getDayStart(nextday);
+		}
+		//昨日
+		else if (dateStatus==2) {
+			Date days = DateUtil.subDays(1);
+			startTime=DateUtil.getDayStart(time);
+			endTime=DateUtil.getDayEnd(time);
+		} -->
+   <select id="getSellerIndexData" resultType="cn.qumiandan.sellerIndexData.vo.CacuSellerIndexDataVO">
+   	select t.tradeAmount, a.actualMoney , c.allCost  from 
+ 	(
+   	(
+   	SELECT sum(amount_total)+ sum(game_amount) as tradeAmount from qmd_order  where  order_status in (3,4,5,6,7,8)
+   	
+   	<if test="shopIdList != null and shopIdList.size()>0">
+   		and shop_id in
+   	<foreach collection="shopIdList" item="id" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+   	</if>
+   	<if test="startTime != null">
+   		and create_date &gt;= #{startTime}
+   	</if>
+   	<if test="endTime != null">
+   		and create_date &lt; #{endTime}
+   	</if>
+   	) t, 
+   	
+   	(
+   	SELECT sum(amount)  as actualMoney
+	from qmd_trade_detail  where type in (2,3,14)  and  status in (2,4)
+   	<if test="shopIdList != null and shopIdList.size()>0">
+   		and account_in_id  in (
+   		select  id from qmd_pay_account where 
+   		shop_id in 
+   		<foreach collection="shopIdList" item="id" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+  )
+
+   	</if>
+   	<if test="startTime != null">
+   		and create_date &gt;= #{startTime}
+   	</if>
+   	<if test="endTime != null">
+   		and create_date &lt; #{endTime}
+   	</if>
+   	) a, 
+   	
+   	(
+	SELECT sum(p.cost *od.number) as allCost
+	from qmd_order o
+	 LEFT JOIN qmd_order_detail od on o.order_id = od.order_id 
+	 LEFT JOIN qmd_product p on od.product_id = p.id 
+	where o.order_status in (4,5,6,8)
+	<if test="shopIdList != null and shopIdList.size()>0">
+   		and o.shop_id in
+   	<foreach collection="shopIdList" item="id" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+   	</if>
+   	<if test="startTime != null">
+   		and o.create_date &gt;= #{startTime}
+   	</if>
+   	<if test="endTime != null">
+   		and o.create_date &lt; #{endTime}
+   	</if>	 
+	 ) c
+   	)
+   	
+   </select>
+</mapper>

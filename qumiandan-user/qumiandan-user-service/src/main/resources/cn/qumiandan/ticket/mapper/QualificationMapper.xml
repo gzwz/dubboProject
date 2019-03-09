@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.ticket.mapper.QualificationMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.ticket.vo.QualificationTicketVO" >
+    <id column="id" property="id" />
+    <result column="user_id" property="userId" />
+    <result column="user_name" property="userName"  />
+    <result column="shop_id" property="shopId"  />
+    <result column="name" property="name" />
+    <result column="present_price" property="presentPrice" />
+    <result column="return_money" property="returnMoney"  />
+    <result column="cashback_doorsill" property="cashbackDoorsill"  />
+    <result column="status" property="status" />
+    <result column="create_id" property="createId" />
+    <result column="update_id" property="updateId" />
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"  />
+  </resultMap>
+  <resultMap id="TicketNumVO" type="cn.qumiandan.ticket.vo.TicketNumVO" >
+    <result column="user_id" property="userId" />
+    <result column="ticketNum" property="ticketNum"  />
+  </resultMap>
+  <select id="queryTicket" resultMap="BaseResultMap"  >
+	SELECT 
+    	qt.id,
+    	qt.user_id,
+    	qt.shop_id,
+    	qt.name,
+    	qt.present_price,
+    	qt.return_money,
+    	qt.cashback_doorsill,
+    	qt.status,
+    	qt.create_id,
+    	qt.update_id,
+    	qt.create_date,
+    	qt.update_date,
+    	u.user_name 
+    FROM qmd_qualification_ticket  qt LEFT JOIN sys_user u ON qt.user_id = u.id
+    WHERE 1 = 1
+    <if test="paramsVO.id != null">
+    and qt.id = #{paramsVO.id}
+    </if>
+    <if test="paramsVO.userId != null" >
+      and  qt.user_id = #{paramsVO.userId}
+    </if>
+    <if test="paramsVO.shopId != null" >
+      and  qt.shop_id = #{paramsVO.shopId}
+    </if>
+    <if test="paramsVO.userName != null" >
+     and   u.user_name = #{paramsVO.userName}
+    </if>
+    <if test="paramsVO.statusList != null and paramsVO.statusList.size>0" >
+        and qt.status in 
+	<foreach collection="paramsVO.statusList" item="status" open="(" close=")" separator=",">
+    	#{status}
+    </foreach>
+    </if>
+    <if test="paramsVO.statusList == null or 0 >= paramsVO.statusList.size()">
+    and qt.status in (1,2,3,4,5)
+    </if>
+  </select>
+  <select id="getTiketNumByUserIdList" resultMap="TicketNumVO">
+  	select count(*) as ticketNum ,user_id from qmd_qualification_ticket 
+  	where 1=1
+  	<if test="userIdList != null and userIdList.size()>0">
+  		and user_id in
+  		 <foreach collection="userIdList" item="id" open="(" close=")" separator=",">
+   			 #{id}
+    	</foreach>
+  	</if>
+  	<if test="status != null">
+  		and status = #{status}
+  	</if>  	
+  	<if test="status ==null">
+  	and status in (1,2,3,4,5)
+  	</if>
+  	group by user_id
+  </select>
+</mapper>

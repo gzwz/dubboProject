@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.trade.mapper.TradeDetailMapper" >
+	<resultMap type="java.lang.Byte" id="TradeStatusMap">
+		<result column="status" property="status"/>
+	</resultMap>
+	<resultMap type="cn.qumiandan.trade.vo.TradeResultVO" id="TradeResulVOtMap">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="serial_no" property="orderId"/>
+		<result column="game_serial_no" property="gameOrderId"/>
+		<result column="amount" property="amount"/>
+		<result column="pay_channel" property="payChannel"/>
+		<result column="pay_date" property="payDate" jdbcType="TIMESTAMP"/>
+		<result column="paySuccess" property="paySuccess" jdbcType="BOOLEAN"/>
+	</resultMap>
+	<select id="getTradeStatus" resultMap="TradeStatusMap">
+		SELECT
+			status
+		FROM qmd_trade_detail WHERE id = #{id}
+	</select>
+	<select id="getTradeResult" resultMap="TradeResulVOtMap">
+		SELECT
+			id,
+			serial_no,
+			game_serial_no,
+			amount,
+			pay_channel,
+			pay_date,
+			CASE status WHEN 2 THEN true ELSE false END AS paySuccess
+		FROM qmd_trade_detail WHERE id = #{id}
+	</select>
+	<select id="getOutAccount" resultType="java.math.BigDecimal" parameterType="java.util.List">
+		select sum(amount) from qmd_trade_detail 
+		where 1=1
+		and account_out_id in 
+		 <foreach collection="accountIds" item="accountId" open="(" close=")" separator=",">
+    	#{accountId}
+    	</foreach>
+    	and amount &gt; 0
+	</select>
+	<select id="getInAccount" resultType="java.math.BigDecimal" parameterType="java.util.List">
+		select sum(amount) from qmd_trade_detail 
+		where 1=1
+		and account_in_id in 
+		 <foreach collection="accountIds" item="accountId" open="(" close=")" separator=",">
+    	#{accountId}
+    	</foreach>
+    	and amount &lt; 0
+	</select>
+</mapper>

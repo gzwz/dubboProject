@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.product.mapper.ProductAlbumMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.product.entity.ProductAlbum" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="image_name" property="imageName" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="skip_url" property="skipUrl" jdbcType="VARCHAR" />
+    <result column="image_size" property="imageSize" jdbcType="BIGINT" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="image_sort" property="imageSort" jdbcType="INTEGER" />
+    <result column="image_type" property="imageType" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ProductAlbumVOMap" type="cn.qumiandan.product.vo.ProductAlbumVO" >
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="image_name" property="imageName" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="skip_url" property="skipUrl" jdbcType="VARCHAR" />
+    <result column="image_size" property="imageSize" jdbcType="BIGINT" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="image_sort" property="imageSort" jdbcType="INTEGER" />
+    <result column="image_type" property="imageType" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_id, image_name, image_url, skip_url, image_size, suffix, intro, image_sort,
+    image_type, status, create_date, create_id
+  </sql>
+   <update id="deleteAlbumsByProductIdAndType">
+    update qmd_product_album
+    set status = 0
+    where product_id = #{productId,jdbcType=BIGINT}
+    and image_type = #{imageType,jdbcType=TINYINT}
+  </update>
+
+  <select id="selectByProductId" parameterType="java.lang.Long" resultMap="ProductAlbumVOMap">
+    select product_id, image_name, image_url, skip_url, image_size, suffix, intro, image_sort,
+    image_type, create_date, create_id
+    from qmd_product_album
+    where product_id = #{id,jdbcType=BIGINT}
+    and status = 1
+  </select>
+</mapper>

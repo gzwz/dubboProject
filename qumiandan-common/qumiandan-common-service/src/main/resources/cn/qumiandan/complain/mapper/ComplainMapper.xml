@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.complain.mapper.ComplainMapper" >
+	<select id="queryComplain" resultType="cn.qumiandan.complain.vo.ComplainVO">
+	select 
+	c.id,  
+	c.type_id, 
+	ct.name,
+	c.content,  
+	c.image_urls,  
+	c.mobile,  
+	c.status,  
+	c.feedback,  
+	c.tagart_shop_id,  
+	c.tagart_product_id, 
+	c.create_id,  
+	c.update_id,  
+	c.create_date,  
+	c.update_date
+	from qmd_complain c 
+	left join qmd_complain_type ct on c.type_id = ct.id
+	where 1=1 
+	<if test="params.typeId != null">
+	and c.type_id = #{params.typeId}
+	</if>
+	<if test="params.status != null">
+	 and c.status = #{params.status}
+	</if>
+	</select>
+</mapper>

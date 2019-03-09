@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.pay.withdraw.mapper.WithdrawMapper" >
+<resultMap id="WithdrawCashVo" type="cn.qumiandan.pay.withdraw.vo.WithdrawCashVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account_id" property="accountId" jdbcType="BIGINT" />
+    <result column="name" property="accountName" jdbcType="BIGINT" />
+    <result column="type" property="accountType" jdbcType="BIGINT" />
+    <result column="withdrawal_amount" property="withdrawalAmount" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="remark_submit" property="remarkSubmit" jdbcType="VARCHAR" />
+    <result column="remark_audit" property="remarkAudit" jdbcType="VARCHAR" />
+    <result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+    <result column="card_holder" property="cardHolder" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="actual_amount" property="actualAmount" jdbcType="DECIMAL" />
+    <result column="payment_date" property="paymentDate" jdbcType="TIMESTAMP" />
+    <result column="error_message" property="errorMessage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="auditor_id" property="auditorId" jdbcType="BIGINT" />
+    <result column="request_param" property="requestParam" jdbcType="VARCHAR" />
+    <result column="auditor_date" property="auditorDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+    <sql id="Base_Column_List" >
+      w.id, w.account_id, w.withdrawal_amount, w.fee, w.remark_submit, w.remark_audit, w.bank_no, w.card_holder, 
+      w.out_trade_no, w. actual_amount, w.payment_date, w.error_message, w.status, w.auditor_id, w.request_param, 
+      w.auditor_date, w.create_id, w.update_id, w.create_date, w.update_date
+  </sql>
+  <select id="queryWithdrawCash" resultMap="WithdrawCashVo">
+  	select 
+  	w.id,
+  	w.account_id,
+  	w.withdrawal_amount,
+  	w.fee,
+  	w.remark_submit, 
+  	w.remark_audit, 
+  	w.bank_no, 
+  	w.card_holder, 
+    w.out_trade_no, 
+    w.actual_amount, 
+    w.payment_date, 
+    w.error_message, 
+    w.status, 
+    w.auditor_id, 
+    w.request_param, 
+    w.auditor_date, 
+    w.create_id, 
+    w.update_id, 
+    w.create_date, 
+    w.update_date,
+    a.name,
+    a.type
+    from qmd_withdraw w left join qmd_pay_account a
+    on w.account_id = a.id where 1=1 
+     <if test="paramsVO.accountIdList != null and paramsVO.accountIdList.size>0">
+     	and w.account_id in 
+     	 <foreach collection="paramsVO.accountIdList" item="id" open="(" close=")" separator=",">
+   			 #{id}
+    	</foreach>
+     </if>
+    <if test="paramsVO.statusList != null and paramsVO.statusList.size>0">
+    	and w.status in 
+    	<foreach collection="paramsVO.statusList" item="status" open="(" close=")" separator=",">
+   			 #{status}
+    	</foreach>
+    </if>
+    <if test="paramsVO.startCreateDate != null">
+    	and w.create_date &gt;= #{paramsVO.startCreateDate}
+    </if>
+    <if test="paramsVO.endCreateDate != null">
+    	and w.create_date &lt;= #{paramsVO.endCreateDate}
+    </if>
+    <if test="paramsVO.inputInfo != null and paramsVO.inputInfo != ''">
+    	and 
+    	(
+    		w.bank_no like concat(#{inputInfo},'%')
+    		or w.card_holder like concat(#{inputInfo},'%')
+    		or a.name like  concat(#{inputInfo},'%')
+    	)
+    </if>
+    <if test="paramsVO.accountType != null">
+    	and a.type &lt;= #{paramsVO.accountType}
+    </if>
+    order by w.create_date desc
+  </select>
+</mapper>

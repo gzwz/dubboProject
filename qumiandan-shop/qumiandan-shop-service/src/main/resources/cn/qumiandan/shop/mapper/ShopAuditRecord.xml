@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shop.mapper.ShopAuditRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shop.entity.ShopAuditRecord" >
+  	<id column="id" property="id"/>
+    <result column="shop_id" property="shopId"/>
+    <result column="status" property="status"/>
+    <result column="auditor" property="auditor"/>
+    <result column="audit_date" property="auditDate"/>
+    <result column="remark" property="remark"/>
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate" />
+    <result column="create_id" property="createId"/>
+    <result column="update_id" property="updateId" />
+  </resultMap>
+  <resultMap id="ShopVOResultMap" type="cn.qumiandan.shop.vo.ShopAuditRecord">
+  	<id column="id" property="id"/>
+    <result column="shop_id" property="shopId"/>
+    <result column="status" property="status"/>
+    <result column="auditor" property="auditor"/>
+    <result column="audit_date" property="auditDate"/>
+    <result column="remark" property="remark"/>
+    <result column="create_date" property="createDate" />
+    <result column="update_date" property="updateDate" />
+    <result column="create_id" property="createId"/>
+    <result column="update_id" property="updateId" />
+  </resultMap>
+  
+  <select id="getNewestAuditRecord" parameterType="java.lang.Long" resultMap="ShopVOResultMap">
+  	SELECT
+  		id,
+  		shop_id,
+  		status,
+  		auditor,
+  		MAX(audit_date),
+  		remark,
+  		create_date, 
+  		update_date, 
+  		create_id,
+      	update_id
+  	FROM qmd_shop_audit_record WHERE shop_id = #{shopId}
+  </select>
+</mapper>

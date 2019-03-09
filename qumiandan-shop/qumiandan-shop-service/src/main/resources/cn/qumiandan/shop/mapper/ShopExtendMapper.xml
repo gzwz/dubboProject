@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shop.mapper.ShopExtendMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shop.entity.ShopExtend" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="BIGINT" />
+    <result column="card_holder" property="cardHolder" jdbcType="VARCHAR" />
+    <result column="corporation" property="corporation" jdbcType="VARCHAR" />
+    <result column="legal_id_num" property="legalIdNum" />
+    <result column="max_scan" property="maxScan" jdbcType="DECIMAL" />
+    <result column="max_sale" property="maxSale" jdbcType="DECIMAL" />
+    <result column="max_free" property="maxFree" jdbcType="DECIMAL" />
+    <result column="dispatch_begin_money" property="dispatchBeginMoney" jdbcType="DECIMAL" />
+    <result column="open_time" property="openTime"  />
+    <result column="rest_time" property="restTime"  />
+    <result column="item" property="item" jdbcType="VARCHAR" />
+    <result column="is_open_shut" property="isOpenShut" jdbcType="TINYINT" />
+    <result column="total_income" property="totalIncome" jdbcType="DECIMAL" />
+    <result column="support_payment" property="supportPayment" jdbcType="VARCHAR" />
+  	<result column="merchant_no" property="merchantNo" jdbcType="VARCHAR" />
+  	<result column="terminal_id" property="terminalId" jdbcType="VARCHAR" />
+  	<result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+  	<result column="sales_volume" property="salesVolume" jdbcType="BIGINT" />
+  	<result column="hot_exponent" property="hotExponent" jdbcType="DECIMAL" />
+ 	<result column="per_capita_consume" property="perCapitaConsume"  />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, shop_id, bank_account, bank_id, card_holder, corporation,legal_id_num, max_scan, max_sale, 
+      max_free, dispatch_begin_money, open_time, rest_time, item, is_open_shut, total_income,support_payment,
+      merchant_no,
+	  terminal_id,
+	  access_token,
+	  sales_volume,
+	  hot_exponent,
+	  per_capita_consume
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+</mapper>

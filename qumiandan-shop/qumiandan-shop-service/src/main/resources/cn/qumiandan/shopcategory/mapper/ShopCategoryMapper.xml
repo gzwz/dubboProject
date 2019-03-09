@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shopcategory.mapper.ShopCategoryMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shopcategory.entity.ShopCategory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ShopCategoryVOResultMap" type="cn.qumiandan.shopcategory.vo.ShopCategoryVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, name, parent_id, sort, create_date, update_date, create_id, update_id,status
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <sql id="SHOPCATEGORY_VO_COLUMN">
+    id, name, parent_id, sort,status
+  </sql>
+  <select id="getFistShopCategoryList" parameterType="java.lang.Long" resultMap="ShopCategoryVOResultMap">
+    SELECT s.id,s.name,s.parent_id,s.sort,s.status
+    FROM qmd_shop_category s
+    WHERE s.parent_id = #{parentId}
+    AND s.status = 1
+  </select>
+  <select id="getSecondShopCategoryList" resultMap="ShopCategoryVOResultMap">
+    SELECT
+    <include refid="SHOPCATEGORY_VO_COLUMN" />
+    FROM qmd_shop_category
+    WHERE parent_id != 0
+    AND parent_id IS NOT NULL
+    AND status = 1
+  </select>
+  <select id="getShopCategoryListByParentId" parameterType="java.lang.Long" resultMap="ShopCategoryVOResultMap">
+    SELECT
+    <include refid="SHOPCATEGORY_VO_COLUMN" />
+    FROM qmd_shop_category
+    WHERE parent_id = #{parentId}
+    AND status = 1
+  </select>
+  <select id="getMaxSort" resultType="java.lang.Integer">
+    SELECT max(sort) FROM qmd_shop_category
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="SHOPCATEGORY_VO_COLUMN" />
+    FROM qmd_shop_category
+    WHERE name = #{name}
+    AND status = 1
+    LIMIT 1
+  </select>
+</mapper>

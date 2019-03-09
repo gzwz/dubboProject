@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.areacode.mapper.AreaCodeMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.areacode.entity.AreaCode" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="province_code" property="provinceCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- AreaCodeVO -->
+  <resultMap id="AreaCodeVOResultMap" type="cn.qumiandan.areacode.vo.AreaCodeVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="province_code" property="provinceCode" />
+    <result column="city_code" property="cityCode" />
+    <result column="area_code" property="areaCode"/>
+    <result column="province" property="province" />
+    <result column="city" property="city" />
+    <result column="area" property="area" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, province_code, city_code, area_code, province, city, area
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,province_code,city_code,area_code,province,city,area
+    from sb_area_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getAreaCodeByAddress"  resultMap="BaseResultMap">
+  select 
+	<include refid="Base_Column_List"/>
+	from sb_area_code
+	where 1=1
+	<if test="level==1">
+	and province = #{addressVO.provinceName}
+	</if>
+	<if test="level==2">
+	 and province = #{addressVO.provinceName} and city = #{cityName}
+	</if>
+	<if test="level==3">
+	and province = #{addressVO.provinceName} and city = #{cityName} and area = #{districtName}
+	</if>
+	limit 1
+  </select>
+   <select id="getSbAreaNameByCode"  resultMap="BaseResultMap">
+  select 
+	<include refid="Base_Column_List"/>
+	from sb_area_code
+	where 1=1
+	<if test="level==1">
+	and province_code = #{code}
+	</if>
+	<if test="level==2">
+	and city_code = #{code}
+	</if>
+	<if test="level==3">
+	and area_code = #{code}
+	</if>
+	limit 1
+  </select>
+	<select id="getAreaInfoByProvinceNameAndcountryName" parameterType="java.lang.String" resultMap="AreaCodeVOResultMap">
+		SELECT
+			 id, 
+			 province_code, 
+			 city_code, 
+			 area_code, 
+			 province, 
+			 city, 
+			 area
+		FROM sb_area_code
+		WHERE province = #{provinceName} AND area = #{countryName}
+	</select>
+</mapper>

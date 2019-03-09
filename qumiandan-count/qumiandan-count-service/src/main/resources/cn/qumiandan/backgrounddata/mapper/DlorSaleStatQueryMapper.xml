@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.backgrounddata.mapper.DlorSaleStatQueryMapper" >
+<select id="queryDlorSaleStat" resultType="cn.qumiandan.backgrounddata.vo.DlorSaleStatQueryVO2">
+	SELECT 
+	pay.user_id as userId,
+	trade.account_in_id, 
+    SUM(trade.amount) as profit
+	FROM qmd_trade_detail trade
+	LEFT JOIN qmd_pay_account pay ON trade.account_in_id = pay.id
+	WHERE trade.status = 2 
+	AND trade.type in (4,5,6,7, 9, 10,11,12,16,17,18,19) 
+	AND (trade.pay_date BETWEEN  #{startTime} AND #{endTime})
+	GROUP BY account_in_id,pay.user_id;
+</select>
+
+</mapper>

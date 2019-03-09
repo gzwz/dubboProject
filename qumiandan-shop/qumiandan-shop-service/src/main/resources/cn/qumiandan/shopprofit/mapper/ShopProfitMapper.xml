@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shopprofit.mapper.ShopProfitMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shopprofit.entity.ShopProfit" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="sb_rate_code" property="sbRateCode" jdbcType="VARCHAR" />
+    <result column="use_default_fee_flag" property="useDefaultFeeFlag" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, shop_id, sb_rate_code,rate, use_default_fee_flag, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,shop_id,sb_rate_code,use_default_fee_flag,status
+    from qmd_shop_profit
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getShopProfitByShopId" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+  select 
+  <include refid="Base_Column_List"/>
+  from qmd_shop_profit where status=1 and use_default_fee_flag=1 and  shop_id=#{shopId}
+  </select>
+  </mapper>

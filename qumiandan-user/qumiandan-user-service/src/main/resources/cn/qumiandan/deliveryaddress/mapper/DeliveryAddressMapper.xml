@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.deliveryaddress.mapper.DeliveryAddressMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.deliveryaddress.entity.DeliveryAddress" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="mobile_back" property="mobileBack" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="zip" property="zip" jdbcType="VARCHAR" />
+    <result column="is_default_address" property="isDefaultAddress" jdbcType="TINYINT" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, user_id, real_name, mobile, mobile_back, country, province, city, street, zip, 
+      is_default_address, area, status, create_id, update_id, create_date, update_date
+  </sql>
+  <select id="getDeliveryAddressByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  select       
+	<include refid="Base_Column_List"></include>
+   from sys_delivery_address where status =1
+   and user_id=#{userId}
+  </select>
+  <select id="getDefaultAddress" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+   select       
+	<include refid="Base_Column_List"></include>
+   from sys_delivery_address where status =1
+   and user_id=#{userId} 
+   and is_default_address=1 limit 1
+  </select>
+  <update id="setDefaultAddress" parameterType="java.lang.Long">
+  update sys_delivery_address
+  set  is_default_address=0 where user_id=#{userId}
+  </update>
+</mapper>

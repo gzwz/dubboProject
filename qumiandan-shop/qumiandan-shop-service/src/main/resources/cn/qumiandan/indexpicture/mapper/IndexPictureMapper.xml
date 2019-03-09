@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.indexpicture.mapper.IndexPictureMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.indexpicture.entity.IndexPicture" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="skip_url" property="skipUrl" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="image_size" property="imageSize" jdbcType="BIGINT" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="effective_time" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="lose_time" property="loseTime" jdbcType="TIMESTAMP" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="IndexPictureVOResultMap" type="cn.qumiandan.indexpicture.vo.IndexPictureVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="skip_url" property="skipUrl" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="image_size" property="imageSize" jdbcType="BIGINT" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="area" property="area" />
+    <result column="effective_time" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="lose_time" property="loseTime" jdbcType="TIMESTAMP" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id,name, image_url, skip_url, suffix, image_size, intro,
+      area_code,effective_time, lose_time,sort, status, create_date
+  </sql>
+  <select id="getCenterIndexPictureListByCode" resultMap="IndexPictureVOResultMap">
+    SELECT *
+    FROM qmd_shop_index_picture
+    WHERE status =1
+    <if test="areaCode !=null">
+    and area_code = #{areaCode}
+    </if>
+    AND effective_time <![CDATA[<=]]> date_format(now(), '%Y-%m-%d %H:%i:%S')
+    AND lose_time <![CDATA[>=]]> date_format(now(), '%Y-%m-%d %H:%i:%S')
+    ORDER BY sort
+    LIMIT 3
+  </select>
+
+  <select id="getMaxSort" resultType="java.lang.Integer">
+    SELECT max(sort) FROM qmd_shop_index_picture
+  </select>
+
+  <delete id="deleteByFileName" parameterType="java.lang.String">
+    DELETE FROM qmd_shop_index_picture WHERE name = #{fileName}
+  </delete>
+  <select id="queryIndexPicture" resultMap="IndexPictureVOResultMap" >
+ select 
+		i.id,
+  	i.name,
+  	i.image_url, 
+  	i.skip_url, 
+  	i.suffix, 
+  	i.image_size, 
+  	i.intro,
+    i.area_code,
+    i.effective_time, 
+    i.lose_time,
+    i.sort, 
+    i.status, 
+    i.create_date,
+	IFNULL(a.district_name,'平台') as area
+	from qmd_shop_index_picture i
+	left join address a on i.area_code = a.district_code
+	 and a.level =3
+	where i.status in (1,2)
+    <if test="isValid == 1 ">
+    	and i.lose_time &gt;= now()
+    </if>
+    <if test="isValid == 2 ">
+    	and i.lose_time &lt;= now()
+    </if>
+    <if test="status != null">
+        and i.status =#{status}
+    </if>
+    <if test="areaCode != null and areaCode !=''">
+    	and area_code = #{areaCode}
+    </if>
+      order by i.sort desc,  i.create_date desc
+  </select>
+</mapper>

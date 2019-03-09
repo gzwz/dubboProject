@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.order.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.order.entity.Order" >
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="order_type" property="orderType" jdbcType="TINYINT" />
+    <result column="order_status" property="orderStatus" jdbcType="TINYINT" />
+    <result column="win" property="win" jdbcType="TINYINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="billing" property="billing" jdbcType="TINYINT" />
+    <result column="product_amount_total" property="productAmountTotal" jdbcType="DECIMAL" />
+    <result column="logistics_fee" property="logisticsFee" jdbcType="DECIMAL" />
+    <result column="need_pay_amount" property="needPayAmount" jdbcType="DECIMAL" />
+    <result column="game_amount" property="gameAmount" jdbcType="DECIMAL" />
+    <result column="amount_total" property="amountTotal" jdbcType="DECIMAL" />
+    <result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="order_settlement_status" property="orderSettlementStatus" jdbcType="TINYINT" />
+    <result column="order_settlement_time" property="orderSettlementTime" jdbcType="TIMESTAMP" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="channel_trade_no" property="channelTradeNo"/>
+    <result column="salesman_id" property="salesmanId" jdbcType="BIGINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      order_id, shop_id,shop_name, user_id, order_type, order_status,win, title, billing, product_amount_total, 
+      logistics_fee, amount_total,game_amount,need_pay_amount, pay_channel, pay_date, order_settlement_status,order_settlement_time, 
+      pro_code, city_code, county_code, out_trade_no,channel_trade_no, salesman_id, create_id, update_id, 
+      create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    order_id,shop_id,shop_name, user_id,order_type,order_status,win, title,billing,product_amount_total,logistics_fee,amount_total,game_amount,need_pay_amount,pay_channel,pay_date,order_settlement_status,order_settlement_time,pro_code,city_code,county_code,out_trade_no,channel_trade_no,salesman_id,create_id,update_id,create_date,update_date
+    from qmd_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from qmd_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- parameterType="java.lang.String" -->
+  <select id="selectOrderById" resultType="cn.qumiandan.order.vo.OrderVO">
+  	SELECT * FROM qmd_order o LEFT JOIN qmd_game_detail gd ON o.order_id = gd.order_id
+	WHERE o.order_id = #{orderId}
+  </select>
+  
+  	
+  <resultMap id="selectGameOrderByGameIdResult" type="cn.qumiandan.order.vo.GameOrderDetailVO" >
+    <result column="order_id" property="orderId" javaType="java.lang.String"/>
+  	<result column="title" property="title"/>
+  	<collection property="gameOrderExtendList" ofType="cn.qumiandan.order.vo.GameExtendVO">
+  		<result column="id" property="id"/>
+  		<result column="order_id" property="orderId" javaType="java.lang.String"/>
+  		<result column="win" property="win"/>
+  	</collection>
+  </resultMap>
+  <select id="selectGameOrderByGameId" resultMap="selectGameOrderByGameIdResult" >
+  	SELECT  o.order_id,o.title,gd.id,gd.order_id,gd.win FROM qmd_order o LEFT JOIN qmd_game_detail gd ON o.order_id = gd.order_id
+	WHERE gd.id = #{gameId}
+  </select>
+
+
+</mapper>

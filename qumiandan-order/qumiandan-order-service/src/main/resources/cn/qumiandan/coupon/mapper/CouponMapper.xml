@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.coupon.mapper.CouponMapper" >
+  <resultMap id="CouponMap" type="cn.qumiandan.coupon.entity.Coupon" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="templete_id" property="templeteId" jdbcType="BIGINT" />
+    <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="face_value" property="faceValue" jdbcType="DECIMAL" />
+    <result column="publisher" property="publisher" jdbcType="BIGINT" />
+    <result column="take_rule" property="takeRule" jdbcType="VARCHAR" />
+    <result column="use_rule" property="useRule" jdbcType="VARCHAR" />
+    <result column="publisher_name" property="publisherName" jdbcType="VARCHAR" />
+    <result column="condition_desc" property="conditionDesc" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="validity" property="validity" jdbcType="INTEGER" />
+    <result column="total_number" property="totalNumber" jdbcType="BIGINT" />
+    <result column="remain_number" property="remainNumber" jdbcType="BIGINT" />
+    <result column="used_number" property="usedNumber" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="exc_product_ids" property="excProductIds" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+  </resultMap>
+  <select id="queryUsefulCoupon" resultMap="CouponMap" >
+  select c.id, c.templete_id, c.serial_no,
+   c.name, c.face_value, c.publisher, c.take_rule, 
+   c.use_rule, c.publisher_name, 
+      c.condition_desc, c.start_time, 
+      c.end_time, c.validity, c.total_number, 
+      c.remain_number,c.used_number, c.status, 
+      c.exc_product_ids, c.create_date, c.update_date, 
+      c.create_id, c.update_id 
+  		from qmd_coupon c 
+  		left join qmd_coupon_take_record tr 
+  		on c.id = tr.coupon_id 
+  		where c.status = 1 
+  		and tr.status = 1
+  		<if test="currentDate!=null">
+  			and #{currentDate}  &lt;= c.end_time
+  		</if>
+  		<if test="publisherList != null and publisherList.size()>0">
+  			and c.publisher in
+  		 	<foreach collection="publisherList" item="publisher" open="(" close=")" separator=",">
+   				 #{publisher}
+    		</foreach>
+  		</if>
+  		<if test="userId != null">
+  			and  tr.user_id = #{userId}
+  		</if>
+		order by tr.create_date desc
+  </select>
+</mapper>

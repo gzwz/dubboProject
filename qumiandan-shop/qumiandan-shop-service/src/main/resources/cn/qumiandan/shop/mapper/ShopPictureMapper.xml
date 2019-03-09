@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shop.mapper.ShopPictureMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shop.entity.ShopPicture" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="skip_url" property="skipUrl" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="image_size" property="imageSize" jdbcType="BIGINT" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="image_type" property="imageType" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ShopPictureVOResultMap" type="cn.qumiandan.shop.vo.ShopPictureVO" >
+  	<result column="id" property="id"/>
+    <result column="shop_id" property="shopId"/>
+    <result column="name" property="imageName"  />
+    <result column="image_url" property="imageUrl"  />
+    <result column="skip_url" property="skipUrl"/>
+    <result column="suffix" property="suffix"/>
+    <result column="image_size" property="imageSize"/>
+    <result column="intro" property="intro"  />
+    <result column="sort" property="sort" />
+    <result column="image_type" property="imageType"  />
+    <result column="status" property="status"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, shop_id, name, image_url, skip_url, suffix, image_size, intro,
+      sort, image_type, create_date, status
+  </sql>
+  <update id="deleteAlbumsByShopIdAndType">
+    update qmd_shop_picture
+    set status = 0
+    where shop_id = #{shopId}
+    and image_type = #{imageType}
+  </update>
+
+  <select id="selectByShopId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qmd_shop_picture
+    where shop_id = #{shopId,jdbcType=BIGINT}
+    and status = 1
+  </select>
+  
+  <select id="getShopPictureByShopIdAndTypes" resultMap="ShopPictureVOResultMap">
+  	SELECT
+	  	id,
+	    shop_id,
+	    name,
+	    image_url,
+	    skip_url,
+	    suffix,
+	    image_size,
+	    intro,
+	    sort,
+	    image_type,
+	    status
+    FROM qmd_shop_picture WHERE shop_id = #{shopId}
+    AND status = 1 
+   	<if test="types != null" >
+    AND image_type IN 
+    <foreach item="item" collection="types" index="index" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+     </if>
+  </select>
+</mapper>

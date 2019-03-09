@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.counttask.mapper.PlatformStatMapper" >
+	<select id="queryAll" parameterType="cn.qumiandan.counttask.vo.AdminStatQueryVO" resultType="cn.qumiandan.counttask.vo.PlatformStatQueryVO">
+	 SELECT
+		SUM( received_amount ) received_amount,
+		SUM( merchant_profit ) merchant_profit,
+		SUM( platform_profit ) platform_profit,
+		SUM( service_fee) service_fee,
+		SUM( game_amount ) game_amount,
+		SUM( game_win_amount ) game_win_amount,
+		SUM( withdraw_amount ) withdraw_amount,
+			count_date
+		FROM
+			qmd_platform_stats 
+		WHERE count_date &gt;= #{startTime} AND count_date &lt; #{endTime}
+		<if test="null != proCode and proCode != ''">
+		  AND pro_code = #{proCode}
+		</if>
+		<if test="null != cityCode and cityCode != ''">
+		  AND city_code = #{cityCode}
+		</if>
+		<if test="null != countyCdoe and countyCdoe != ''">
+		  AND county_cdoe = #{countyCdoe}
+		</if>
+		<if test="null != shopId and shopId != ''">
+		  AND shop_id = #{shopId}
+		</if>
+		GROUP BY count_date
+	</select>
+	
+	<select id="getShopStatPageForShop" parameterType="cn.qumiandan.common.request.CommonParams" resultType="cn.qumiandan.counttask.vo.PlatformStatQueryVO">
+		SELECT 
+			SUM(received_amount) AS received_amount, 
+			SUM(merchant_profit) AS merchant_profit, 
+			SUM(platform_profit) AS platform_profit, 
+			SUM(service_fee) AS service_fee, 
+			SUM(game_amount) AS game_amount, 
+			SUM(game_win_amount) AS game_win_amount, 
+			SUM(withdraw_amount) AS withdraw_amount,
+			DATE_FORMAT(count_date,'%Y-%m-%d') AS count_date
+		FROM qmd_platform_stats
+		WHERE 1 = 1 
+		<if test="params.shopIds != null and params.shopIds.size() > 0">
+			AND shop_id IN 
+		<foreach collection="params.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+		</foreach>
+		</if>
+		<if test="params.startTime != null">
+			AND count_date <![CDATA[ >= ]]> #{params.startTime}
+		</if>
+		<if test="params.endTime != null">
+			AND count_date <![CDATA[ <= ]]> #{params.endTime}
+		</if>
+		GROUP BY DATE_FORMAT(count_date,'%Y-%m-%d')
+		ORDER BY count_date
+	</select>
+	
+	<select id="getShopStatPageForDL" resultType="cn.qumiandan.counttask.vo.PlatformStatQueryVO">
+		 SELECT
+		SUM( received_amount ) received_amount,
+		SUM( merchant_profit ) merchant_profit,
+		SUM( service_fee) service_fee,
+		SUM( game_amount ) game_amount,
+		SUM( game_win_amount ) game_win_amount,
+		SUM( withdraw_amount ) withdraw_amount,
+			count_date
+		FROM
+			qmd_platform_stats 
+		where 1=1
+		<if test="vo.shopIds != null and vo.shopIds.size > 0">
+		 and shop_id  in 
+		 <foreach collection="vo.shopIds" item="shopId" open="(" close=")" separator=",">
+   			 #{shopId}
+   		 </foreach>
+   		 </if>
+		and count_date &gt;= #{vo.startTime}
+		and count_date &lt; #{vo.endTime}
+		GROUP BY count_date
+	
+	</select>
+	
+</mapper>

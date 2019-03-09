@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.shoppingcart.mapper.ShoppingCartMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.shoppingcart.entity.ShoppingCart" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="product_exists" property="productExists" jdbcType="TINYINT" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, user_id, shop_id, product_id, product_exists, number, create_date
+  </sql>
+ <select id="getProductByUserIdAndProductId" resultMap="BaseResultMap">
+ select 
+ <include refid="Base_Column_List"/>
+ from qmd_shopping_cart where user_id=#{userId} and product_id=#{productId}
+ </select>
+ <delete id="deleteShoppingCart" parameterType="java.lang.Long" >
+    delete from qmd_shopping_cart
+    where id = #{id}
+  </delete>
+   <resultMap id="ShopMap" type="cn.qumiandan.shoppingcart.vo.ShopingCartDetailVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="shop_type_id" property="shopTypeId" jdbcType="BIGINT" />
+    <result column="license" property="license" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="town_code" property="townCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <select id="getShopListByUserId" resultMap="ShopMap" parameterType="java.lang.Long">
+  SELECT s.id, s.name, s.description, s.shop_type_id, s.license, s.logo, s.longitude, s.latitude, s.pro_code,
+      s.city_code, s.county_code, s.town_code, s.address, s.phone ,s.status from  
+      (SELECT sc.shop_id,max(sc.create_date) from qmd_shopping_cart sc GROUP BY shop_id,sc.user_id having sc.user_id=#{userId} ORDER BY max(sc.create_date) desc) groupsc 
+      LEFT JOIN qmd_shop s on groupsc.shop_id=s.id;
+  </select>
+  <resultMap id="ProductMap" type="cn.qumiandan.product.vo.ProductBasicVO" >
+    <id column="productId" property="productId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="BIGINT" />
+    <result column="type_id" property="typeId" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+    <result column="main_image" property="mainImage" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="present_price" property="presentPrice" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="is_qmd" property="isQmd" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="getProductByUserId" resultMap="ProductMap" >
+  select 
+  p.id ,  p.name,  p.type_id,  p.category_id,  p.brand_id,  p.main_image,  p.original_price,  p.present_price,
+     p.cost,  p.is_qmd, p.status,   p.create_id,   p.create_date ,sc.shop_id
+  from qmd_shopping_cart sc
+   left join  qmd_product p  on sc.product_id=p.id 
+  where user_id=#{userId} order by sc.create_date desc
+  </select>
+</mapper>

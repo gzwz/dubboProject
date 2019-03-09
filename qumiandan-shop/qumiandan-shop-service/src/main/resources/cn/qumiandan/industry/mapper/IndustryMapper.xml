@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.industry.mapper.IndustryMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.industry.entity.Industry" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sb_industry_id" property="sbIndustryId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="rate_code" property="rateCode" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="set_interval" property="setInterval" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="IndustryVOMap" type="cn.qumiandan.industry.vo.IndustryVO" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sb_industry_id" property="sbIndustryId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="rate_code" property="rateCode" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="set_interval" property="setInterval" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, sb_industry_id, name, level, rate_code,fee, parent_id, set_interval, status, create_id, 
+      update_id, create_date, update_date
+  </sql>
+  <select id="getIndustryByLevelAndParentId" resultMap="IndustryVOMap">
+  select 
+  <include refid="Base_Column_List"/>
+  from qmd_industry_info where status= 1
+   <if test="level != null">
+     and level=#{level}
+  </if>
+  <if test="parentId != null">
+     and parent_id=#{parentId}
+  </if>
+  </select>
+  <select id="getIndustryVOByName" resultMap="IndustryVOMap" >
+select 
+  <include refid="Base_Column_List"/>
+  from qmd_industry_info where status= 1 and 
+  name=#{name}
+  and parent_id=#{parentId}
+  </select>
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.indexmenu.mapper.IndexMenuMapper" >
+  <resultMap id="BaseResultMap" type="cn.qumiandan.indexmenu.entity.IndexMenu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="TINYINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="update_id" property="updateId" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      id, name, url, image, area_code, level,sort, status,  create_id, update_id, 
+      create_date, update_date
+  </sql>
+	<select id="getIndexMenuByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List"/>
+	from qmd_index_menu where name=#{name} and status = 1 limit 1
+	</select>
+	<select id="getAllIndexMenu" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Column_List"/>
+	from qmd_index_menu where  status = 1
+	</select>
+	<select id="getMaxSort" resultType="java.lang.Integer">
+	select max(sort) from qmd_index_menu where status = 1
+	</select>
+</mapper>

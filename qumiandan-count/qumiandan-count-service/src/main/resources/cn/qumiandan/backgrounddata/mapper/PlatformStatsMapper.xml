@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.qumiandan.backgrounddata.mapper.PlatformStatsMapper" >
+
+	<select id="queryReceivedAmount" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+		SELECT 
+			sp.id AS shopId,
+			sp.pro_code,
+			sp.city_code,
+			sp.county_code,
+			sum(td.amount) AS receivedAmount  
+		FROM qmd_shop sp 
+		LEFT JOIN qmd_pay_account py ON sp.id = py.shop_id
+		LEFT JOIN qmd_trade_detail td ON td.account_in_id = py.id 
+		WHERE td.type in (2,3,14) and td.status = 2 AND 
+		(td.create_date BETWEEN #{startTime} AND #{endTime}) GROUP BY sp.id;
+	</select>
+	
+	<select id="queryMerchantCost" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+		SELECT o.shop_id as shopId ,sum(p.cost *od.number) AS costAmount
+	from qmd_order o
+	 LEFT JOIN qmd_order_detail od on o.order_id = od.order_id 
+	 LEFT JOIN qmd_product p on od.product_id = p.id 
+	where o.order_status in (5,6,8) 
+	AND(o.create_date BETWEEN #{startTime} AND #{endTime})
+	group by o.shop_id
+	</select>
+	
+	<select id="queryPlatformProfit" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+	select  pa.shop_id as shopId, sum(amount) as platformProfit from qmd_trade_detail td   
+	LEFT join qmd_pay_account pa on 
+	td.account_out_id = pa.id 
+	where 1=1 and td.type in (26,28,29,30)
+	AND(td.create_date BETWEEN #{startTime} AND #{endTime})
+	group by pa.shop_id
+	</select>
+	
+	<select id="queryServiceFee" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+			select pa.shop_id as shopId, sum(round(td.amount*0.003)) as serviceFee from qmd_trade_detail td
+		LEFT JOIN qmd_pay_account pa
+		on td.account_in_id = pa.id 
+		where 1=1 and td.type in (1,2,3,14)
+		and td.status in (2,4) and  ABS(ROUND(td.amount*0.003))>1 
+		AND(td.create_date BETWEEN #{startTime} AND #{endTime})
+		group BY pa.shop_id;
+	</select>
+	
+	<select id="queryGameAmount" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+		select pa.shop_id as shopId,
+		sum(td.amount) as gameAmount  
+		from qmd_trade_detail td
+		LEFT JOIN qmd_pay_account pa on td.account_in_id = pa.id 
+		where 1=1 
+		and td.type =3
+		AND(td.create_date BETWEEN #{startTime} AND #{endTime})
+		group BY pa.shop_id;
+	</select>
+	
+	
+	<select id="queryGameWinAmount" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+		SELECT o.shop_id as shopId , sum(o.need_pay_amount) as gameWinAmount from qmd_order  o
+		where o.win = 2
+		AND(o.create_date BETWEEN #{startTime} AND #{endTime})
+		GROUP BY o.shop_id
+	</select>
+	
+	<select id="queryGameWithdrawAmount" resultType="cn.qumiandan.backgrounddata.vo.StatVO">
+		select pa.shop_id as shopId,sum(td.amount) as gameAmount  from qmd_trade_detail td
+		LEFT JOIN qmd_pay_account pa
+		on td.account_in_id = pa.id 
+		where 1=1 and td.type = 21
+		AND(td.create_date BETWEEN #{startTime} AND #{endTime})
+		group BY pa.shop_id;
+	</select>
+	
+</mapper>
